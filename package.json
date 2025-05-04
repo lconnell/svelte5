@@ -10,9 +10,10 @@
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"format": "prettier --write .",
-		"lint": "prettier --check . && eslint .",
-		"lint:fix": "prettier --write . && eslint . --fix"
+		"pretty:lint": "prettier --check . && eslint .",
+		"pretty:fix": "prettier --write . && eslint . --fix",
+		"postcss:build": "postcss src/app.css -o tmp/app.css",
+		"openapi:generate": "npx openapi-zod-client --input openapi.json --output src/api/client.ts"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
@@ -41,7 +42,9 @@
 		"tailwindcss": "^4.0.0",
 		"typescript": "^5.8.3",
 		"typescript-eslint": "^8.20.0",
-		"vite": "^6.2.6"
+		"vite": "^6.2.6",
+		"zod": "^3.24.3",
+		"zod-openapi": "^4.2.4"
 	},
 	"dependencies": {
 		"postcss": "^8.5.3"
