@@ -2,6 +2,7 @@
 	import { extractApiError } from '$lib/api/error';
 	import { onMount } from 'svelte';
 	import { api } from '$lib/api/client-wrapper';
+	import { getAccessToken } from '$lib/auth';
 
 	let count = $state(0);
 	let userFullName = $state<string | null>(null);
@@ -13,7 +14,7 @@
 
 	// Fetch the current user's details if logged in
 	onMount(async () => {
-		const token = localStorage.getItem('access_token');
+		const token = getAccessToken();
 		if (!token) return;
 		try {
 			const user = await api['users-read_user_me']();
