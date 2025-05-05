@@ -38,7 +38,7 @@
 <div class="bg-base-200 flex min-h-screen items-center justify-center">
 	<form
 		class="bg-base-100 flex w-full max-w-sm flex-col gap-6 rounded-lg p-8 shadow-lg"
-		on:submit={handleLogin}
+		onsubmit={handleLogin}
 	>
 		<h2 class="text-center text-2xl font-bold">Sign in to your account</h2>
 		<div class="form-control">
@@ -54,9 +54,6 @@
 				autocomplete="username"
 				placeholder="Enter your username"
 			/>
-			<!--
-        Style adjustment: focus:ring-primary and focus:border-primary ensure the blue highlight matches the button and aligns with the input.
-      -->
 		</div>
 		<div class="form-control">
 			<label class="label" for="password">
@@ -71,9 +68,6 @@
 				autocomplete="current-password"
 				placeholder="Enter your password"
 			/>
-			<!--
-        Style adjustment: focus:ring-primary and focus:border-primary ensure the blue highlight matches the button and aligns with the input.
-      -->
 		</div>
 		{#if error}
 			<div class="alert alert-error shadow-sm">{error}</div>

@@ -17,7 +17,6 @@
 		if (!token) return;
 		try {
 			const user = await api['users-read_user_me']();
-			// Ensure user.full_name is never undefined when assigned to userFullName
 			userFullName = user.full_name ?? '';
 		} catch (e: unknown) {
 			userError = extractApiError(e, 'Failed to load user.');
