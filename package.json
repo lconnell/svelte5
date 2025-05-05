@@ -13,7 +13,8 @@
 		"pretty:lint": "prettier --check . && eslint .",
 		"pretty:fix": "prettier --write . && eslint . --fix",
 		"postcss:build": "postcss src/app.css -o tmp/app.css",
-		"openapi:generate": "npx openapi-zod-client --input openapi.json --output src/api/client.ts"
+		"openapi:fetch": "mkdir -p src/lib/api && curl -H \"Accept: application/json\" http://api.localhost:8000/api/v1/openapi.json -o src/lib/api/openapi.json",
+		"openapi:generate": "npx openapi-zod-client src/lib/api/openapi.json --output src/lib/api/client.ts"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
@@ -28,6 +29,7 @@
 		"@tailwindcss/vite": "^4.1.5",
 		"@typescript-eslint/eslint-plugin": "^8.31.1",
 		"@typescript-eslint/parser": "^8.31.1",
+		"@zodios/core": "^10.9.6",
 		"autoprefixer": "^10.4.21",
 		"daisyui": "^5.0.35",
 		"eslint": "^9.26.0",

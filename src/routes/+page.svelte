@@ -1,16 +1,43 @@
 <script lang="ts">
+	import { extractApiError } from '$lib/api/error';
+	import { onMount } from 'svelte';
+	import { api } from '$lib/api/client-wrapper';
+
 	let count = $state(0);
+	// Use $state for reactivity in Svelte 5
+	let userFullName = $state<string | null>(null);
+	let userError = $state<string | null>(null);
 
 	function increment(): void {
 		count += 1;
 	}
+
+	// Fetch the current user's email if logged in
+	onMount(async () => {
+		const token = localStorage.getItem('access_token');
+		if (!token) return;
+		try {
+			const user = await api['users-read_user_me']();
+			// Ensure user.full_name is never undefined when assigned to userFullName
+			userFullName = user.full_name ?? '';
+		} catch (e: unknown) {
+			userError = extractApiError(e, 'Failed to load user.');
+		}
+	});
 </script>
 
-<div class="flex flex-col items-center justify-center min-h-screen gap-4 text-center">
+<div class="flex min-h-screen flex-col items-center justify-center gap-4 text-center">
 	<h1 class="text-3xl font-bold">Welcome to SvelteKit 2</h1>
+	{#if userFullName}
+		<p class="text-lg">Logged in as <span class="font-semibold">{userFullName}</span></p>
+	{:else if userError}
+		<p class="text-error">{userError}</p>
+	{/if}
 	<button class="btn btn-primary" onclick={increment}>
-		Clicked {count} {count === 1 ? 'time' : 'times'}
+		Clicked {count}
+		{count === 1 ? 'time' : 'times'}
 	</button>
-	<h1>Welcome to SvelteKit</h1>
-	<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+	<p>
+		Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation
+	</p>
 </div>
