@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { extractApiError } from '$lib/api/error';
-	// Import the API client and navigation
-	// Use the wrapper to ensure all requests go to the backend directly
 	import { api } from '$lib/api/client-wrapper';
 	import { goto } from '$app/navigation';
 
@@ -90,12 +88,3 @@
 		</button>
 	</form>
 </div>
-
-<!--
-  This login form uses DaisyUI + TailwindCSS for a modern, clean look.
-  - Responsive and centered
-  - Shows errors and loading state
-  - Comments for clarity
-  - On success, stores access_token and redirects
-  - For production, use secure storage for tokens
--->

@@ -4,7 +4,6 @@
 	import { api } from '$lib/api/client-wrapper';
 
 	let count = $state(0);
-	// Use $state for reactivity in Svelte 5
 	let userFullName = $state<string | null>(null);
 	let userError = $state<string | null>(null);
 
@@ -12,7 +11,7 @@
 		count += 1;
 	}
 
-	// Fetch the current user's email if logged in
+	// Fetch the current user's details if logged in
 	onMount(async () => {
 		const token = localStorage.getItem('access_token');
 		if (!token) return;
