@@ -6,7 +6,7 @@ import { getAccessToken } from '$lib/auth';
 const baseUrl = PUBLIC_API_BASE_URL || 'http://localhost:8000';
 
 // Correct API instance with base URL and patched types
-const apiInstance = createApiClient(baseUrl);
+export const api = createApiClient(baseUrl);
 
 // Automatically attach Authorization header if access_token is present in localStorage
 const authHeaderPlugin: ZodiosPlugin = {
@@ -26,6 +26,4 @@ const authHeaderPlugin: ZodiosPlugin = {
 	}
 };
 
-apiInstance.use(authHeaderPlugin);
-
-export const api = apiInstance;
+api.use(authHeaderPlugin);
