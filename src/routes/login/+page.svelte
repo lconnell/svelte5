@@ -2,6 +2,7 @@
 	import { extractApiError } from '$lib/api/error';
 	import { api } from '$lib/api/client-wrapper';
 	import { goto } from '$app/navigation';
+	import { setAccessToken } from '$lib/auth';
 
 	// Form state
 	let username = '';
@@ -24,7 +25,7 @@
 				password
 			});
 			// Store token (for demo: localStorage, use secure storage in production)
-			localStorage.setItem('access_token', response.access_token);
+			setAccessToken(response.access_token);
 			// Redirect to home or dashboard
 			goto('/');
 		} catch (e: unknown) {

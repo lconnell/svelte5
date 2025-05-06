@@ -69,6 +69,7 @@ const UserUpdate = z
 	})
 	.partial()
 	.passthrough();
+export type ItemPublic = z.infer<typeof ItemPublic>;
 const ItemPublic = z
 	.object({
 		title: z.string().min(1).max(255),
@@ -79,12 +80,14 @@ const ItemPublic = z
 	})
 	.passthrough();
 const ItemsPublic = z.object({ data: z.array(ItemPublic), count: z.number().int() }).passthrough();
+export type ItemCreate = z.infer<typeof ItemCreate>;
 const ItemCreate = z
 	.object({
 		title: z.string().min(1).max(255),
 		description: z.union([z.string(), z.null()]).optional()
 	})
 	.passthrough();
+export type ItemUpdate = z.infer<typeof ItemUpdate>;
 const ItemUpdate = z
 	.object({ title: z.union([z.string(), z.null()]), description: z.union([z.string(), z.null()]) })
 	.partial()
@@ -98,6 +101,7 @@ const PrivateUserCreate = z
 	})
 	.passthrough();
 
+export type ItemsDeleteItemParams = { id: string };
 export const schemas = {
 	Body_login_login_access_token,
 	Token,
@@ -591,7 +595,13 @@ const endpoints = makeApi([
 	}
 ]);
 
-export const api = new Zodios(endpoints);
+// ⚠️ Do NOT use a default 'api' instance from this file.
+// Always use 'createApiClient' and import from client-wrapper.ts for correct path interpolation.
+// This is a deliberate safeguard against accidental misuse.
+// If you need an API instance, use:
+// import { api } from './client-wrapper';
+//
+// export const api = new Zodios(endpoints); // <-- REMOVED
 
 export function createApiClient(baseUrl: string, options?: ZodiosOptions) {
 	return new Zodios(baseUrl, endpoints, options);

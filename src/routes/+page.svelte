@@ -4,7 +4,7 @@
 	import { api } from '$lib/api/client-wrapper';
 	import { getAccessToken } from '$lib/auth';
 
-	let count = $state(0);
+	let count = $state<number>(0);
 	let userFullName = $state<string | null>(null);
 	let userError = $state<string | null>(null);
 
