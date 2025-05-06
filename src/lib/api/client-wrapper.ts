@@ -7,7 +7,6 @@ const baseUrl = PUBLIC_API_BASE_URL || 'http://localhost:8000';
 
 // Correct API instance with base URL and patched types
 const apiInstance = createApiClient(baseUrl);
-console.log('[api/client-wrapper] Zodios apiInstance created:', { baseUrl, apiInstance });
 
 // Automatically attach Authorization header if access_token is present in localStorage
 const authHeaderPlugin: ZodiosPlugin = {

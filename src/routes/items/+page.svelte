@@ -6,9 +6,10 @@
 	import { onMount } from 'svelte';
 	import { api } from '$lib/api/client-wrapper';
 	import { extractApiError } from '$lib/api/error';
-
-	// Types from OpenAPI
 	import type { ItemPublic } from '$lib/api/client';
+	import { getAccessToken } from '$lib/auth';
+	// Workaround: Using axios for DELETE due to Zodios path interpolation bug
+	import axios from 'axios';
 
 	let items = $state<ItemPublic[]>([]);
 	let itemError = $state<string | null>(null);
@@ -36,14 +37,6 @@
 		}
 	}
 
-	/**
-	 * Create a new item via the API and update state.
-	 */
-	function handleCreateItem(event: Event) {
-		event.preventDefault();
-		createItem();
-	}
-
 	function openModal() {
 		showModal = true;
 	}
@@ -62,13 +55,27 @@
 		viewingItem = null;
 	}
 
+	/**
+	 * Delete an item by ID using axios (Zodios path interpolation workaround)
+	 * @param id Item UUID
+	 * TODO: Remove this workaround when Zodios path interpolation is fixed
+	 */
+	async function deleteItemById(id: string) {
+		const token = getAccessToken();
+		if (!token) return;
+		await axios.delete(`http://localhost:8000/api/v1/items/${id}`, {
+			headers: { Authorization: `Bearer ${token}` }
+		});
+	}
+
+	/**
+	 * Delete handler for UI (calls axios-based workaround)
+	 */
 	async function handleDelete(id: string) {
 		deletingId = id;
 		itemError = null;
 		try {
-			console.log('Deleting id:', id, 'API instance:', api);
-			// @ts-expect-error: Zodios type generation mismatch, param is valid
-			await api['items-delete_item']({ id }, undefined);
+			await deleteItemById(id);
 			items = items.filter((i) => i.id !== id);
 		} catch (e: unknown) {
 			itemError = extractApiError(e, 'Failed to delete item.');
@@ -118,8 +125,9 @@
 					class="btn btn-sm btn-circle absolute top-3 right-3"
 					aria-label="Close"
 					onclick={closeModal}
+					type="button"
 				>
-					<span class="material-symbols-outlined">close</span>
+					<span class="material-symbols-outlined text-2xl leading-none">close</span>
 				</button>
 				<h3 class="text-center text-xl font-bold">Add New Item</h3>
 				<form
@@ -129,14 +137,35 @@
 						createItem();
 						closeModal();
 					}}
+					aria-label="Add new item"
 				>
-					<input class="input input-bordered" placeholder="Title" bind:value={newTitle} required />
-					<textarea
-						class="textarea textarea-bordered"
-						placeholder="Description (optional)"
-						bind:value={newDescription}
-					></textarea>
-					<button class="btn btn-primary" type="submit" disabled={creating}>
+					<div class="form-control">
+						<label class="label" for="item-title">
+							<span class="label-text">Title</span>
+						</label>
+						<input
+							id="item-title"
+							type="text"
+							class="input input-bordered focus:ring-primary focus:border-primary focus:ring-2 focus:outline-none"
+							bind:value={newTitle}
+							required
+							autocomplete="off"
+							placeholder="Enter item title"
+						/>
+					</div>
+					<div class="form-control">
+						<label class="label" for="item-description">
+							<span class="label-text">Description (optional)</span>
+						</label>
+						<textarea
+							id="item-description"
+							class="textarea textarea-bordered focus:ring-primary focus:border-primary focus:ring-2 focus:outline-none"
+							placeholder="Enter item description (optional)"
+							bind:value={newDescription}
+							autocomplete="off"
+						></textarea>
+					</div>
+					<button class="btn btn-primary w-full" type="submit" disabled={creating}>
 						{creating ? 'Creating...' : 'Add Item'}
 					</button>
 				</form>
@@ -189,8 +218,9 @@
 					class="btn btn-sm btn-circle absolute top-3 right-3"
 					aria-label="Close"
 					onclick={closeView}
+					type="button"
 				>
-					<span class="material-symbols-outlined">close</span>
+					<span class="material-symbols-outlined text-2xl leading-none">close</span>
 				</button>
 				<h3 class="text-center text-xl font-bold">Item Details</h3>
 				<div class="flex flex-col gap-2">
