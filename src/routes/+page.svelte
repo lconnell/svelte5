@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { extractApiError } from '$lib/api/error';
 	import { onMount } from 'svelte';
-	import { api } from '$lib/api/client-wrapper';
+
 	import { getAccessToken } from '$lib/auth';
 
 	let count = $state<number>(0);
@@ -16,12 +15,11 @@
 	onMount(async () => {
 		const token = getAccessToken();
 		if (!token) return;
-		try {
-			const user = await api['users-read_user_me']();
-			userFullName = user.full_name ?? '';
-		} catch (e: unknown) {
-			userError = extractApiError(e, 'Failed to load user.');
-		}
+		// TODO: Replace with proper user fetch using Orval-generated client, e.g. usersReadUserMe()
+		// const user = await usersReadUserMe();
+		// userFullName = user.full_name ?? '';
+		// For now, just clear error
+		userError = null;
 	});
 </script>
 
