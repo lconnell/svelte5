@@ -217,7 +217,7 @@
 							</p>
 						{/if}
 						<button class="btn btn-sm btn-outline" title="View" onclick={() => handleView(item)}>
-							<span class="material-symbols-outlined">view</span>
+							<span class="material-symbols-outlined">visibility</span>
 						</button>
 					</div>
 				</li>

@@ -1,37 +1,33 @@
 <script lang="ts">
-	import { extractApiError } from '$lib/api/error';
+import { createLoginLoginAccessToken } from '$lib/api/client';
+import { extractApiError } from '$lib/api/error';
+import { goto } from '$app/navigation';
+import { setAccessToken } from '$lib/auth';
 
-	import { goto } from '$app/navigation';
-	import { setAccessToken } from '$lib/auth';
+// Form state
+let username = '';
+let password = '';
 
-	// Form state
-	let username = '';
-	let password = '';
-	let loading = false;
-	let error: string | null = null;
+// Use svelte-query mutation for login
+const loginMutation = createLoginLoginAccessToken();
 
-	/**
-	 * Handle login form submission
-	 * Authenticates to backend and stores access token
-	 */
-	async function handleLogin(event: Event) {
-		event.preventDefault();
-		loading = true;
-		error = null;
-		try {
-			// TODO: Replace with proper login using Orval-generated client, e.g. loginLoginAccessToken({ username, password })
-			// const response = await loginLoginAccessToken({ username, password });
-			// setAccessToken(response.access_token);
-			// goto('/');
-			// For now, simulate login success
-			setAccessToken('demo-token');
-			goto('/');
-		} catch (e: unknown) {
-			error = extractApiError(e, 'Login failed. Please check your credentials.');
-		} finally {
-			loading = false;
-		}
+/**
+ * Handle login form submission using svelte-query mutation
+ * Authenticates to backend and stores access token
+ * @param event - Form submit event
+ */
+async function handleLogin(event: Event) {
+	event.preventDefault();
+	try {
+		// FastAPI OAuth2 expects scope (even if empty)
+		const payload = { username: username.trim(), password: password, grant_type: 'password', scope: '' };
+		const response = await $loginMutation.mutateAsync({ data: payload });
+		setAccessToken(response.access_token);
+		goto('/');
+	} catch (e: unknown) {
+		// Error is handled by mutation.error and UI
 	}
+}
 </script>
 
 <div class="bg-base-200 flex min-h-screen items-center justify-center">
@@ -68,16 +64,14 @@
 				placeholder="Enter your password"
 			/>
 		</div>
-		{#if error}
-			<div class="alert alert-error shadow-sm">{error}</div>
+		{#if $loginMutation.isPending}
+			<div class="flex justify-center"><span class="loading loading-spinner"></span> Signing in...</div>
 		{/if}
-		<button class="btn btn-primary w-full" type="submit" disabled={loading}>
-			{#if loading}
-				<span class="loading loading-spinner"></span>
-				Signing in...
-			{:else}
-				Sign In
-			{/if}
+		{#if $loginMutation.error}
+			<div class="alert alert-error shadow-sm">{extractApiError($loginMutation.error, 'Login failed. Please check your credentials.')}</div>
+		{/if}
+		<button class="btn btn-primary w-full" type="submit" disabled={$loginMutation.isPending}>
+			Sign In
 		</button>
 	</form>
 </div>
