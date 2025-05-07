@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
 	import { getAccessToken } from '$lib/auth';
+	import MapForm from '$lib/components/MapForm.svelte';
 
 	let count = $state<number>(0);
 	let userFullName = $state<string | null>(null);
@@ -37,4 +37,6 @@
 	<p>
 		Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation
 	</p>
+
+	<MapForm />
 </div>

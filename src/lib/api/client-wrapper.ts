@@ -50,11 +50,11 @@ export const clientWrapper = async <T = unknown>({
 
 	// Type guard for URLSearchParams
 	const isFormData = payload instanceof URLSearchParams;
-	
+
 	// Build headers: only set Content-Type to application/json if not already set and not form data
 	const finalHeaders: Record<string, string> = {
 		Authorization: token ? `Bearer ${token}` : '',
-		...headers as Record<string, string>
+		...(headers as Record<string, string>)
 	};
 	if (!isFormData && !finalHeaders['Content-Type']) {
 		finalHeaders['Content-Type'] = 'application/json';
@@ -63,8 +63,8 @@ export const clientWrapper = async <T = unknown>({
 	const res = await fetch(fullUrl, {
 		method,
 		headers: finalHeaders,
-		body: isFormData ? payload : (payload ? JSON.stringify(payload) : undefined),
-		signal,
+		body: isFormData ? payload : payload ? JSON.stringify(payload) : undefined,
+		signal
 	});
 
 	const responseData = await res.json();

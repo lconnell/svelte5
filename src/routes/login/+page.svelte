@@ -1,33 +1,39 @@
 <script lang="ts">
-import { createLoginLoginAccessToken } from '$lib/api/client';
-import { extractApiError } from '$lib/api/error';
-import { goto } from '$app/navigation';
-import { setAccessToken } from '$lib/auth';
+	import { createLoginLoginAccessToken } from '$lib/api/client';
+	import { extractApiError } from '$lib/api/error';
+	import { goto } from '$app/navigation';
+	import { setAccessToken } from '$lib/auth';
 
-// Form state
-let username = '';
-let password = '';
+	// Form state
+	let username = '';
+	let password = '';
 
-// Use svelte-query mutation for login
-const loginMutation = createLoginLoginAccessToken();
+	// Use svelte-query mutation for login
+	const loginMutation = createLoginLoginAccessToken();
 
-/**
- * Handle login form submission using svelte-query mutation
- * Authenticates to backend and stores access token
- * @param event - Form submit event
- */
-async function handleLogin(event: Event) {
-	event.preventDefault();
-	try {
-		// FastAPI OAuth2 expects scope (even if empty)
-		const payload = { username: username.trim(), password: password, grant_type: 'password', scope: '' };
-		const response = await $loginMutation.mutateAsync({ data: payload });
-		setAccessToken(response.access_token);
-		goto('/');
-	} catch (e: unknown) {
-		// Error is handled by mutation.error and UI
+	/**
+	 * Handle login form submission using svelte-query mutation
+	 * Authenticates to backend and stores access token
+	 * @param event - Form submit event
+	 */
+	async function handleLogin(event: Event) {
+		event.preventDefault();
+		try {
+			// FastAPI OAuth2 expects scope (even if empty)
+			const payload = {
+				username: username.trim(),
+				password: password,
+				grant_type: 'password',
+				scope: ''
+			};
+			const response = await $loginMutation.mutateAsync({ data: payload });
+			setAccessToken(response.access_token);
+			goto('/');
+		} catch (e: unknown) {
+			// Error is handled by mutation.error and UI
+			console.error(e);
+		}
 	}
-}
 </script>
 
 <div class="bg-base-200 flex min-h-screen items-center justify-center">
@@ -65,10 +71,14 @@ async function handleLogin(event: Event) {
 			/>
 		</div>
 		{#if $loginMutation.isPending}
-			<div class="flex justify-center"><span class="loading loading-spinner"></span> Signing in...</div>
+			<div class="flex justify-center">
+				<span class="loading loading-spinner"></span> Signing in...
+			</div>
 		{/if}
 		{#if $loginMutation.error}
-			<div class="alert alert-error shadow-sm">{extractApiError($loginMutation.error, 'Login failed. Please check your credentials.')}</div>
+			<div class="alert alert-error shadow-sm">
+				{extractApiError($loginMutation.error, 'Login failed. Please check your credentials.')}
+			</div>
 		{/if}
 		<button class="btn btn-primary w-full" type="submit" disabled={$loginMutation.isPending}>
 			Sign In
