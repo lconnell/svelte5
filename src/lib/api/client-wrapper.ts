@@ -1,5 +1,5 @@
 import { PUBLIC_API_BASE_URL } from '$env/static/public';
-import { getAccessToken } from '$lib/auth';
+import { clerkClient } from 'clerk-sveltekit/client'; // Import clerkClient
 
 const baseUrl = PUBLIC_API_BASE_URL || 'http://localhost:8000';
 
@@ -36,7 +36,8 @@ export const clientWrapper = async <T = unknown>({
 	signal,
 	params
 }: ClientWrapperArgs): Promise<T> => {
-	const token = getAccessToken();
+	// Get token from Clerk
+	const token = await clerkClient.session?.getToken();
 
 	// Normalize URL: append to base if not already full (http or https)
 	let fullUrl = /^https?:\/\//.test(url) ? url : `${baseUrl}${url}`;
@@ -53,9 +54,13 @@ export const clientWrapper = async <T = unknown>({
 
 	// Build headers: only set Content-Type to application/json if not already set and not form data
 	const finalHeaders: Record<string, string> = {
-		Authorization: token ? `Bearer ${token}` : '',
-		...(headers as Record<string, string>)
+		...(headers as Record<string, string>) // Start with existing headers
 	};
+
+	if (token) {
+		finalHeaders['Authorization'] = `Bearer ${token}`; // Set Authorization header
+	}
+
 	if (!isFormData && !finalHeaders['Content-Type']) {
 		finalHeaders['Content-Type'] = 'application/json';
 	}

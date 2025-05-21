@@ -1,9 +1,9 @@
 <script lang="ts">
-  import SignIn from 'clerk-sveltekit/client/SignIn.svelte';
+  import SignUp from 'clerk-sveltekit/client/SignUp.svelte';
 </script>
 
 <div class="bg-base-200 flex min-h-screen items-center justify-center">
-  <SignIn appearance={{
+  <SignUp appearance={{
     variables: {
       colorPrimary: '#570df8', // Using example primary color
       colorBackground: '#ffffff', // Assuming base-100 is white

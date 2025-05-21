@@ -1,0 +1,9 @@
+import { initializeClerkClient } from 'clerk-sveltekit/client';
+import { PUBLIC_CLERK_PUBLISHABLE_KEY, PUBLIC_CLERK_AFTER_SIGN_IN_URL, PUBLIC_CLERK_AFTER_SIGN_UP_URL, PUBLIC_CLERK_SIGN_IN_URL, PUBLIC_CLERK_SIGN_UP_URL } from '$env/static/public';
+
+initializeClerkClient(PUBLIC_CLERK_PUBLISHABLE_KEY, {
+  afterSignInUrl: PUBLIC_CLERK_AFTER_SIGN_IN_URL,
+  afterSignUpUrl: PUBLIC_CLERK_AFTER_SIGN_UP_URL,
+  signInUrl: PUBLIC_CLERK_SIGN_IN_URL,
+  signUpUrl: PUBLIC_CLERK_SIGN_UP_URL,
+});
