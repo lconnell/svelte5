@@ -1,7 +1,20 @@
+import { browser } from '$app/environment';
+
 export function getAccessToken(): string | null {
-	return localStorage.getItem('access_token'); // or use memory store fallback
+	if (browser) {
+		return localStorage.getItem('access_token');
+	}
+	return null; // Return null on server-side
 }
 
 export function setAccessToken(token: string): void {
-	localStorage.setItem('access_token', token);
+	if (browser) {
+		localStorage.setItem('access_token', token);
+	}
+}
+
+export function removeAccessToken(): void {
+	if (browser) {
+		localStorage.removeItem('access_token');
+	}
 }
