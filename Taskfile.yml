@@ -1,0 +1,81 @@
+version: '3'
+
+tasks:
+  dev:
+    desc: "Starts the development server (vite dev)"
+    cmds:
+      - npm run dev
+
+  build:
+    desc: "Builds the application for production"
+    cmds:
+      - npm run build
+
+  docker:build:
+    desc: "Builds the Docker image as 'workorder:latest'"
+    cmds:
+      - docker build -t workorder:latest .
+
+  docker:run:
+    desc: "Runs the Docker container 'workorder:latest' on port 80, named 'workorder' (detached)"
+    cmds:
+      - docker run -d -p 80:80 --name workorder workorder:latest
+
+  docker:stop:
+    desc: "Stops and removes the Docker container named 'workorder'"
+    cmds:
+      - docker stop workorder
+      - docker rm workorder
+    ignore_error: true # Continue even if container doesn't exist or isn't running
+
+  preview:
+    desc: "Previews the production build locally"
+    cmds:
+      - npm run preview
+
+  prepare:
+    desc: "Runs svelte-kit sync (typically for type generation)"
+    cmds:
+      - npm run prepare
+
+  check:
+    desc: "Runs svelte-kit sync and svelte-check for type checking"
+    cmds:
+      - npm run check
+
+  check:watch:
+    desc: "Runs svelte-kit sync and svelte-check in watch mode"
+    cmds:
+      - npm run check:watch
+
+  pretty:lint:
+    desc: "Lints the codebase using Prettier and ESLint"
+    cmds:
+      - npm run pretty:lint
+
+  pretty:fix:
+    desc: "Fixes linting and formatting issues using Prettier and ESLint"
+    cmds:
+      - npm run pretty:fix
+
+  postcss:build:
+    desc: "Builds CSS using PostCSS (src/app.css -> tmp/app.css)"
+    cmds:
+      - npm run postcss:build
+
+  openapi:fetch:
+    desc: "Fetches the OpenAPI schema and saves it to src/lib/api/openapi.json"
+    cmds:
+      - npm run openapi:fetch
+
+  openapi:generate:
+    desc: "Generates API client from the OpenAPI schema using Orval"
+    cmds:
+      - npm run openapi:generate
+
+  # Default task: lists all available tasks
+  default:
+    desc: "Lists all available tasks"
+    cmds:
+      - task --list-all
+    silent: true

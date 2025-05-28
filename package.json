@@ -6,6 +6,9 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
+		"docker:build": "docker build -t workorder:latest .",
+		"docker:run": "docker run -p 80:80 workorder:latest",
+		"docker:stop": "docker stop workorder && docker rm workorder",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
