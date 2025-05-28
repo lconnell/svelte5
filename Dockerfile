@@ -6,6 +6,10 @@ FROM node:18-alpine AS builder
 # Set working directory
 WORKDIR /app
 
+# Accept build-time env var from Railway
+ARG PUBLIC_API_BASE_URL
+ENV PUBLIC_API_BASE_URL=$PUBLIC_API_BASE_URL
+
 # Copy package.json and package-lock.json (or pnpm-lock.yaml)
 COPY package*.json ./
 # If using pnpm, uncomment the next two lines and comment out the npm install line
