@@ -1,39 +1,39 @@
 <script lang="ts">
-	import { createLoginLoginAccessToken } from '$lib/api/client';
-	import { extractApiError } from '$lib/api/error';
-	import { goto } from '$app/navigation';
-	import { setAccessToken } from '$lib/auth';
+import { goto } from "$app/navigation";
+import { createLoginLoginAccessToken } from "$lib/api/client";
+import { extractApiError } from "$lib/api/error";
+import { setAccessToken } from "$lib/auth";
 
-	// Form state
-	let username = '';
-	let password = '';
+// Form state
+const username = "";
+const password = "";
 
-	// Use svelte-query mutation for login
-	const loginMutation = createLoginLoginAccessToken();
+// Use svelte-query mutation for login
+const loginMutation = createLoginLoginAccessToken();
 
-	/**
-	 * Handle login form submission using svelte-query mutation
-	 * Authenticates to backend and stores access token
-	 * @param event - Form submit event
-	 */
-	async function handleLogin(event: Event) {
-		event.preventDefault();
-		try {
-			// FastAPI OAuth2 expects scope (even if empty)
-			const payload = {
-				username: username.trim(),
-				password: password,
-				grant_type: 'password',
-				scope: ''
-			};
-			const response = await $loginMutation.mutateAsync({ data: payload });
-			setAccessToken(response.access_token);
-			goto('/');
-		} catch (e: unknown) {
-			// Error is handled by mutation.error and UI
-			console.error(e);
-		}
+/**
+ * Handle login form submission using svelte-query mutation
+ * Authenticates to backend and stores access token
+ * @param event - Form submit event
+ */
+async function handleLogin(event: Event) {
+	event.preventDefault();
+	try {
+		// FastAPI OAuth2 expects scope (even if empty)
+		const payload = {
+			username: username.trim(),
+			password: password,
+			grant_type: "password",
+			scope: "",
+		};
+		const response = await $loginMutation.mutateAsync({ data: payload });
+		setAccessToken(response.access_token);
+		goto("/");
+	} catch (e: unknown) {
+		// Error is handled by mutation.error and UI
+		console.error(e);
 	}
+}
 </script>
 
 <div class="bg-base-200 flex min-h-screen items-center justify-center">

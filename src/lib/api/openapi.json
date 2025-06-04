@@ -11,7 +11,9 @@
 				"requestBody": {
 					"content": {
 						"application/x-www-form-urlencoded": {
-							"schema": { "$ref": "#/components/schemas/Body_login-login_access_token" }
+							"schema": {
+								"$ref": "#/components/schemas/Body_login-login_access_token"
+							}
 						}
 					},
 					"required": true
@@ -20,7 +22,9 @@
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/Token" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/Token" }
+							}
 						}
 					},
 					"422": {
@@ -44,7 +48,9 @@
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/UserPublic" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/UserPublic" }
+							}
 						}
 					}
 				},
@@ -69,7 +75,9 @@
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/Message" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/Message" }
+							}
 						}
 					},
 					"422": {
@@ -91,7 +99,9 @@
 				"operationId": "login-reset_password",
 				"requestBody": {
 					"content": {
-						"application/json": { "schema": { "$ref": "#/components/schemas/NewPassword" } }
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/NewPassword" }
+						}
 					},
 					"required": true
 				},
@@ -99,7 +109,9 @@
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/Message" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/Message" }
+							}
 						}
 					},
 					"422": {
@@ -169,7 +181,9 @@
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/UsersPublic" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/UsersPublic" }
+							}
 						}
 					},
 					"422": {
@@ -191,14 +205,18 @@
 				"requestBody": {
 					"required": true,
 					"content": {
-						"application/json": { "schema": { "$ref": "#/components/schemas/UserCreate" } }
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/UserCreate" }
+						}
 					}
 				},
 				"responses": {
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/UserPublic" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/UserPublic" }
+							}
 						}
 					},
 					"422": {
@@ -222,7 +240,9 @@
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/UserPublic" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/UserPublic" }
+							}
 						}
 					}
 				},
@@ -237,7 +257,9 @@
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/Message" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/Message" }
+							}
 						}
 					}
 				},
@@ -250,7 +272,9 @@
 				"operationId": "users-update_user_me",
 				"requestBody": {
 					"content": {
-						"application/json": { "schema": { "$ref": "#/components/schemas/UserUpdateMe" } }
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/UserUpdateMe" }
+						}
 					},
 					"required": true
 				},
@@ -258,7 +282,9 @@
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/UserPublic" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/UserPublic" }
+							}
 						}
 					},
 					"422": {
@@ -281,7 +307,9 @@
 				"operationId": "users-update_password_me",
 				"requestBody": {
 					"content": {
-						"application/json": { "schema": { "$ref": "#/components/schemas/UpdatePassword" } }
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/UpdatePassword" }
+						}
 					},
 					"required": true
 				},
@@ -289,7 +317,9 @@
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/Message" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/Message" }
+							}
 						}
 					},
 					"422": {
@@ -312,7 +342,9 @@
 				"operationId": "users-register_user",
 				"requestBody": {
 					"content": {
-						"application/json": { "schema": { "$ref": "#/components/schemas/UserRegister" } }
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/UserRegister" }
+						}
 					},
 					"required": true
 				},
@@ -320,7 +352,9 @@
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/UserPublic" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/UserPublic" }
+							}
 						}
 					},
 					"422": {
@@ -353,7 +387,9 @@
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/UserPublic" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/UserPublic" }
+							}
 						}
 					},
 					"422": {
@@ -383,14 +419,18 @@
 				"requestBody": {
 					"required": true,
 					"content": {
-						"application/json": { "schema": { "$ref": "#/components/schemas/UserUpdate" } }
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/UserUpdate" }
+						}
 					}
 				},
 				"responses": {
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/UserPublic" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/UserPublic" }
+							}
 						}
 					},
 					"422": {
@@ -421,7 +461,9 @@
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/Message" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/Message" }
+							}
 						}
 					},
 					"422": {
@@ -447,14 +489,20 @@
 						"name": "email_to",
 						"in": "query",
 						"required": true,
-						"schema": { "type": "string", "format": "email", "title": "Email To" }
+						"schema": {
+							"type": "string",
+							"format": "email",
+							"title": "Email To"
+						}
 					}
 				],
 				"responses": {
 					"201": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/Message" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/Message" }
+							}
 						}
 					},
 					"422": {
@@ -478,7 +526,10 @@
 						"description": "Successful Response",
 						"content": {
 							"application/json": {
-								"schema": { "type": "boolean", "title": "Response Utils-Health Check" }
+								"schema": {
+									"type": "boolean",
+									"title": "Response Utils-Health Check"
+								}
 							}
 						}
 					}
@@ -510,7 +561,9 @@
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/ItemsPublic" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ItemsPublic" }
+							}
 						}
 					},
 					"422": {
@@ -532,14 +585,18 @@
 				"requestBody": {
 					"required": true,
 					"content": {
-						"application/json": { "schema": { "$ref": "#/components/schemas/ItemCreate" } }
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/ItemCreate" }
+						}
 					}
 				},
 				"responses": {
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/ItemPublic" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ItemPublic" }
+							}
 						}
 					},
 					"422": {
@@ -572,7 +629,9 @@
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/ItemPublic" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ItemPublic" }
+							}
 						}
 					},
 					"422": {
@@ -602,14 +661,18 @@
 				"requestBody": {
 					"required": true,
 					"content": {
-						"application/json": { "schema": { "$ref": "#/components/schemas/ItemUpdate" } }
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/ItemUpdate" }
+						}
 					}
 				},
 				"responses": {
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/ItemPublic" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/ItemPublic" }
+							}
 						}
 					},
 					"422": {
@@ -640,7 +703,9 @@
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/Message" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/Message" }
+							}
 						}
 					},
 					"422": {
@@ -662,7 +727,9 @@
 				"operationId": "private-create_user",
 				"requestBody": {
 					"content": {
-						"application/json": { "schema": { "$ref": "#/components/schemas/PrivateUserCreate" } }
+						"application/json": {
+							"schema": { "$ref": "#/components/schemas/PrivateUserCreate" }
+						}
 					},
 					"required": true
 				},
@@ -670,7 +737,9 @@
 					"200": {
 						"description": "Successful Response",
 						"content": {
-							"application/json": { "schema": { "$ref": "#/components/schemas/UserPublic" } }
+							"application/json": {
+								"schema": { "$ref": "#/components/schemas/UserPublic" }
+							}
 						}
 					},
 					"422": {
@@ -690,7 +759,10 @@
 			"Body_login-login_access_token": {
 				"properties": {
 					"grant_type": {
-						"anyOf": [{ "type": "string", "pattern": "password" }, { "type": "null" }],
+						"anyOf": [
+							{ "type": "string", "pattern": "password" },
+							{ "type": "null" }
+						],
 						"title": "Grant Type"
 					},
 					"username": { "type": "string", "title": "Username" },
@@ -722,9 +794,17 @@
 			},
 			"ItemCreate": {
 				"properties": {
-					"title": { "type": "string", "maxLength": 255, "minLength": 1, "title": "Title" },
+					"title": {
+						"type": "string",
+						"maxLength": 255,
+						"minLength": 1,
+						"title": "Title"
+					},
 					"description": {
-						"anyOf": [{ "type": "string", "maxLength": 255 }, { "type": "null" }],
+						"anyOf": [
+							{ "type": "string", "maxLength": 255 },
+							{ "type": "null" }
+						],
 						"title": "Description"
 					}
 				},
@@ -734,14 +814,30 @@
 			},
 			"ItemPublic": {
 				"properties": {
-					"title": { "type": "string", "maxLength": 255, "minLength": 1, "title": "Title" },
+					"title": {
+						"type": "string",
+						"maxLength": 255,
+						"minLength": 1,
+						"title": "Title"
+					},
 					"description": {
-						"anyOf": [{ "type": "string", "maxLength": 255 }, { "type": "null" }],
+						"anyOf": [
+							{ "type": "string", "maxLength": 255 },
+							{ "type": "null" }
+						],
 						"title": "Description"
 					},
 					"id": { "type": "string", "format": "uuid", "title": "Id" },
-					"owner_id": { "type": "string", "format": "uuid", "title": "Owner Id" },
-					"created_at": { "type": "string", "format": "date-time", "title": "Created At" }
+					"owner_id": {
+						"type": "string",
+						"format": "uuid",
+						"title": "Owner Id"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time",
+						"title": "Created At"
+					}
 				},
 				"type": "object",
 				"required": ["title", "id", "owner_id", "created_at"],
@@ -750,11 +846,17 @@
 			"ItemUpdate": {
 				"properties": {
 					"title": {
-						"anyOf": [{ "type": "string", "maxLength": 255, "minLength": 1 }, { "type": "null" }],
+						"anyOf": [
+							{ "type": "string", "maxLength": 255, "minLength": 1 },
+							{ "type": "null" }
+						],
 						"title": "Title"
 					},
 					"description": {
-						"anyOf": [{ "type": "string", "maxLength": 255 }, { "type": "null" }],
+						"anyOf": [
+							{ "type": "string", "maxLength": 255 },
+							{ "type": "null" }
+						],
 						"title": "Description"
 					}
 				},
@@ -799,7 +901,11 @@
 					"email": { "type": "string", "title": "Email" },
 					"password": { "type": "string", "title": "Password" },
 					"full_name": { "type": "string", "title": "Full Name" },
-					"is_verified": { "type": "boolean", "title": "Is Verified", "default": false }
+					"is_verified": {
+						"type": "boolean",
+						"title": "Is Verified",
+						"default": false
+					}
 				},
 				"type": "object",
 				"required": ["email", "password", "full_name"],
@@ -808,7 +914,11 @@
 			"Token": {
 				"properties": {
 					"access_token": { "type": "string", "title": "Access Token" },
-					"token_type": { "type": "string", "title": "Token Type", "default": "bearer" }
+					"token_type": {
+						"type": "string",
+						"title": "Token Type",
+						"default": "bearer"
+					}
 				},
 				"type": "object",
 				"required": ["access_token"],
@@ -835,14 +945,35 @@
 			},
 			"UserCreate": {
 				"properties": {
-					"email": { "type": "string", "maxLength": 255, "format": "email", "title": "Email" },
-					"is_active": { "type": "boolean", "title": "Is Active", "default": true },
-					"is_superuser": { "type": "boolean", "title": "Is Superuser", "default": false },
+					"email": {
+						"type": "string",
+						"maxLength": 255,
+						"format": "email",
+						"title": "Email"
+					},
+					"is_active": {
+						"type": "boolean",
+						"title": "Is Active",
+						"default": true
+					},
+					"is_superuser": {
+						"type": "boolean",
+						"title": "Is Superuser",
+						"default": false
+					},
 					"full_name": {
-						"anyOf": [{ "type": "string", "maxLength": 255 }, { "type": "null" }],
+						"anyOf": [
+							{ "type": "string", "maxLength": 255 },
+							{ "type": "null" }
+						],
 						"title": "Full Name"
 					},
-					"password": { "type": "string", "maxLength": 40, "minLength": 8, "title": "Password" }
+					"password": {
+						"type": "string",
+						"maxLength": 40,
+						"minLength": 8,
+						"title": "Password"
+					}
 				},
 				"type": "object",
 				"required": ["email", "password"],
@@ -850,15 +981,35 @@
 			},
 			"UserPublic": {
 				"properties": {
-					"email": { "type": "string", "maxLength": 255, "format": "email", "title": "Email" },
-					"is_active": { "type": "boolean", "title": "Is Active", "default": true },
-					"is_superuser": { "type": "boolean", "title": "Is Superuser", "default": false },
+					"email": {
+						"type": "string",
+						"maxLength": 255,
+						"format": "email",
+						"title": "Email"
+					},
+					"is_active": {
+						"type": "boolean",
+						"title": "Is Active",
+						"default": true
+					},
+					"is_superuser": {
+						"type": "boolean",
+						"title": "Is Superuser",
+						"default": false
+					},
 					"full_name": {
-						"anyOf": [{ "type": "string", "maxLength": 255 }, { "type": "null" }],
+						"anyOf": [
+							{ "type": "string", "maxLength": 255 },
+							{ "type": "null" }
+						],
 						"title": "Full Name"
 					},
 					"id": { "type": "string", "format": "uuid", "title": "Id" },
-					"created_at": { "type": "string", "format": "date-time", "title": "Created At" }
+					"created_at": {
+						"type": "string",
+						"format": "date-time",
+						"title": "Created At"
+					}
 				},
 				"type": "object",
 				"required": ["email", "id", "created_at"],
@@ -866,10 +1017,23 @@
 			},
 			"UserRegister": {
 				"properties": {
-					"email": { "type": "string", "maxLength": 255, "format": "email", "title": "Email" },
-					"password": { "type": "string", "maxLength": 40, "minLength": 8, "title": "Password" },
+					"email": {
+						"type": "string",
+						"maxLength": 255,
+						"format": "email",
+						"title": "Email"
+					},
+					"password": {
+						"type": "string",
+						"maxLength": 40,
+						"minLength": 8,
+						"title": "Password"
+					},
 					"full_name": {
-						"anyOf": [{ "type": "string", "maxLength": 255 }, { "type": "null" }],
+						"anyOf": [
+							{ "type": "string", "maxLength": 255 },
+							{ "type": "null" }
+						],
 						"title": "Full Name"
 					}
 				},
@@ -886,14 +1050,28 @@
 						],
 						"title": "Email"
 					},
-					"is_active": { "type": "boolean", "title": "Is Active", "default": true },
-					"is_superuser": { "type": "boolean", "title": "Is Superuser", "default": false },
+					"is_active": {
+						"type": "boolean",
+						"title": "Is Active",
+						"default": true
+					},
+					"is_superuser": {
+						"type": "boolean",
+						"title": "Is Superuser",
+						"default": false
+					},
 					"full_name": {
-						"anyOf": [{ "type": "string", "maxLength": 255 }, { "type": "null" }],
+						"anyOf": [
+							{ "type": "string", "maxLength": 255 },
+							{ "type": "null" }
+						],
 						"title": "Full Name"
 					},
 					"password": {
-						"anyOf": [{ "type": "string", "maxLength": 40, "minLength": 8 }, { "type": "null" }],
+						"anyOf": [
+							{ "type": "string", "maxLength": 40, "minLength": 8 },
+							{ "type": "null" }
+						],
 						"title": "Password"
 					}
 				},
@@ -903,7 +1081,10 @@
 			"UserUpdateMe": {
 				"properties": {
 					"full_name": {
-						"anyOf": [{ "type": "string", "maxLength": 255 }, { "type": "null" }],
+						"anyOf": [
+							{ "type": "string", "maxLength": 255 },
+							{ "type": "null" }
+						],
 						"title": "Full Name"
 					},
 					"email": {
@@ -948,7 +1129,9 @@
 		"securitySchemes": {
 			"OAuth2PasswordBearer": {
 				"type": "oauth2",
-				"flows": { "password": { "scopes": {}, "tokenUrl": "/api/v1/login/access-token" } }
+				"flows": {
+					"password": { "scopes": {}, "tokenUrl": "/api/v1/login/access-token" }
+				}
 			}
 		}
 	}

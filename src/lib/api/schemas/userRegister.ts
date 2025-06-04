@@ -4,7 +4,7 @@
  * Work Order App
  * OpenAPI spec version: 0.1.0
  */
-import type { UserRegisterFullName } from './userRegisterFullName';
+import type { UserRegisterFullName } from "./userRegisterFullName";
 
 export interface UserRegister {
 	/** @maxLength 255 */

@@ -4,9 +4,9 @@
  * Work Order App
  * OpenAPI spec version: 0.1.0
  */
-import type { UserUpdateEmail } from './userUpdateEmail';
-import type { UserUpdateFullName } from './userUpdateFullName';
-import type { UserUpdatePassword } from './userUpdatePassword';
+import type { UserUpdateEmail } from "./userUpdateEmail";
+import type { UserUpdateFullName } from "./userUpdateFullName";
+import type { UserUpdatePassword } from "./userUpdatePassword";
 
 export interface UserUpdate {
 	email?: UserUpdateEmail;

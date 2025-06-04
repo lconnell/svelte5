@@ -4,7 +4,7 @@
  * Work Order App
  * OpenAPI spec version: 0.1.0
  */
-import type { ItemCreateDescription } from './itemCreateDescription';
+import type { ItemCreateDescription } from "./itemCreateDescription";
 
 export interface ItemCreate {
 	/**

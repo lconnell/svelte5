@@ -4,7 +4,7 @@
  * Work Order App
  * OpenAPI spec version: 0.1.0
  */
-import type { UserPublicFullName } from './userPublicFullName';
+import type { UserPublicFullName } from "./userPublicFullName";
 
 export interface UserPublic {
 	/** @maxLength 255 */

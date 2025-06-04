@@ -4,7 +4,7 @@
  * Work Order App
  * OpenAPI spec version: 0.1.0
  */
-import { createMutation, createQuery } from '@tanstack/svelte-query';
+import { createMutation, createQuery } from "@tanstack/svelte-query";
 import type {
 	CreateMutationOptions,
 	CreateMutationResult,
@@ -14,8 +14,8 @@ import type {
 	MutationFunction,
 	QueryClient,
 	QueryFunction,
-	QueryKey
-} from '@tanstack/svelte-query';
+	QueryKey,
+} from "@tanstack/svelte-query";
 
 import type {
 	BodyLoginLoginAccessToken,
@@ -37,55 +37,58 @@ import type {
 	UserUpdateMe,
 	UsersPublic,
 	UsersReadUsersParams,
-	UtilsTestEmailParams
-} from './schemas';
+	UtilsTestEmailParams,
+} from "./schemas";
 
-import { clientWrapper } from './client-wrapper';
+import { clientWrapper } from "./client-wrapper";
 /**
  * OAuth2 compatible token login, get an access token for future requests
  * @summary Login Access Token
  */
 export const loginLoginAccessToken = (
 	bodyLoginLoginAccessToken: BodyLoginLoginAccessToken,
-	signal?: AbortSignal
+	signal?: AbortSignal,
 ) => {
 	const formUrlEncoded = new URLSearchParams();
 	if (
 		bodyLoginLoginAccessToken.grant_type !== undefined &&
 		bodyLoginLoginAccessToken.grant_type !== null
 	) {
-		formUrlEncoded.append(`grant_type`, bodyLoginLoginAccessToken.grant_type);
+		formUrlEncoded.append("grant_type", bodyLoginLoginAccessToken.grant_type);
 	}
-	formUrlEncoded.append(`username`, bodyLoginLoginAccessToken.username);
-	formUrlEncoded.append(`password`, bodyLoginLoginAccessToken.password);
+	formUrlEncoded.append("username", bodyLoginLoginAccessToken.username);
+	formUrlEncoded.append("password", bodyLoginLoginAccessToken.password);
 	if (bodyLoginLoginAccessToken.scope !== undefined) {
-		formUrlEncoded.append(`scope`, bodyLoginLoginAccessToken.scope);
+		formUrlEncoded.append("scope", bodyLoginLoginAccessToken.scope);
 	}
 	if (
 		bodyLoginLoginAccessToken.client_id !== undefined &&
 		bodyLoginLoginAccessToken.client_id !== null
 	) {
-		formUrlEncoded.append(`client_id`, bodyLoginLoginAccessToken.client_id);
+		formUrlEncoded.append("client_id", bodyLoginLoginAccessToken.client_id);
 	}
 	if (
 		bodyLoginLoginAccessToken.client_secret !== undefined &&
 		bodyLoginLoginAccessToken.client_secret !== null
 	) {
-		formUrlEncoded.append(`client_secret`, bodyLoginLoginAccessToken.client_secret);
+		formUrlEncoded.append(
+			"client_secret",
+			bodyLoginLoginAccessToken.client_secret,
+		);
 	}
 
 	return clientWrapper<Token>({
-		url: `/api/v1/login/access-token`,
-		method: 'POST',
-		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+		url: "/api/v1/login/access-token",
+		method: "POST",
+		headers: { "Content-Type": "application/x-www-form-urlencoded" },
 		data: formUrlEncoded,
-		signal
+		signal,
 	});
 };
 
 export const getLoginLoginAccessTokenMutationOptions = <
 	TError = HTTPValidationError,
-	TContext = unknown
+	TContext = unknown,
 >(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof loginLoginAccessToken>>,
@@ -99,9 +102,11 @@ export const getLoginLoginAccessTokenMutationOptions = <
 	{ data: BodyLoginLoginAccessToken },
 	TContext
 > => {
-	const mutationKey = ['loginLoginAccessToken'];
+	const mutationKey = ["loginLoginAccessToken"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
@@ -127,7 +132,10 @@ export type LoginLoginAccessTokenMutationError = HTTPValidationError;
 /**
  * @summary Login Access Token
  */
-export const createLoginLoginAccessToken = <TError = HTTPValidationError, TContext = unknown>(
+export const createLoginLoginAccessToken = <
+	TError = HTTPValidationError,
+	TContext = unknown,
+>(
 	options?: {
 		mutation?: CreateMutationOptions<
 			Awaited<ReturnType<typeof loginLoginAccessToken>>,
@@ -136,7 +144,7 @@ export const createLoginLoginAccessToken = <TError = HTTPValidationError, TConte
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
+	queryClient?: QueryClient,
 ): CreateMutationResult<
 	Awaited<ReturnType<typeof loginLoginAccessToken>>,
 	TError,
@@ -153,32 +161,51 @@ export const createLoginLoginAccessToken = <TError = HTTPValidationError, TConte
  * @summary Test Token
  */
 export const loginTestToken = (signal?: AbortSignal) => {
-	return clientWrapper<UserPublic>({ url: `/api/v1/login/test-token`, method: 'POST', signal });
+	return clientWrapper<UserPublic>({
+		url: "/api/v1/login/test-token",
+		method: "POST",
+		signal,
+	});
 };
 
-export const getLoginTestTokenMutationOptions = <TError = unknown, TContext = unknown>(options?: {
+export const getLoginTestTokenMutationOptions = <
+	TError = unknown,
+	TContext = unknown,
+>(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof loginTestToken>>,
 		TError,
 		void,
 		TContext
 	>;
-}): CreateMutationOptions<Awaited<ReturnType<typeof loginTestToken>>, TError, void, TContext> => {
-	const mutationKey = ['loginTestToken'];
+}): CreateMutationOptions<
+	Awaited<ReturnType<typeof loginTestToken>>,
+	TError,
+	void,
+	TContext
+> => {
+	const mutationKey = ["loginTestToken"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
 
-	const mutationFn: MutationFunction<Awaited<ReturnType<typeof loginTestToken>>, void> = () => {
+	const mutationFn: MutationFunction<
+		Awaited<ReturnType<typeof loginTestToken>>,
+		void
+	> = () => {
 		return loginTestToken();
 	};
 
 	return { mutationFn, ...mutationOptions };
 };
 
-export type LoginTestTokenMutationResult = NonNullable<Awaited<ReturnType<typeof loginTestToken>>>;
+export type LoginTestTokenMutationResult = NonNullable<
+	Awaited<ReturnType<typeof loginTestToken>>
+>;
 
 export type LoginTestTokenMutationError = unknown;
 
@@ -194,8 +221,13 @@ export const createLoginTestToken = <TError = unknown, TContext = unknown>(
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
-): CreateMutationResult<Awaited<ReturnType<typeof loginTestToken>>, TError, void, TContext> => {
+	queryClient?: QueryClient,
+): CreateMutationResult<
+	Awaited<ReturnType<typeof loginTestToken>>,
+	TError,
+	void,
+	TContext
+> => {
 	const mutationOptions = getLoginTestTokenMutationOptions(options);
 
 	return createMutation(mutationOptions, queryClient);
@@ -208,14 +240,14 @@ export const createLoginTestToken = <TError = unknown, TContext = unknown>(
 export const loginRecoverPassword = (email: string, signal?: AbortSignal) => {
 	return clientWrapper<Message>({
 		url: `/api/v1/password-recovery/${email}`,
-		method: 'POST',
-		signal
+		method: "POST",
+		signal,
 	});
 };
 
 export const getLoginRecoverPasswordMutationOptions = <
 	TError = HTTPValidationError,
-	TContext = unknown
+	TContext = unknown,
 >(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof loginRecoverPassword>>,
@@ -229,9 +261,11 @@ export const getLoginRecoverPasswordMutationOptions = <
 	{ email: string },
 	TContext
 > => {
-	const mutationKey = ['loginRecoverPassword'];
+	const mutationKey = ["loginRecoverPassword"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
@@ -257,7 +291,10 @@ export type LoginRecoverPasswordMutationError = HTTPValidationError;
 /**
  * @summary Recover Password
  */
-export const createLoginRecoverPassword = <TError = HTTPValidationError, TContext = unknown>(
+export const createLoginRecoverPassword = <
+	TError = HTTPValidationError,
+	TContext = unknown,
+>(
 	options?: {
 		mutation?: CreateMutationOptions<
 			Awaited<ReturnType<typeof loginRecoverPassword>>,
@@ -266,7 +303,7 @@ export const createLoginRecoverPassword = <TError = HTTPValidationError, TContex
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
+	queryClient?: QueryClient,
 ): CreateMutationResult<
 	Awaited<ReturnType<typeof loginRecoverPassword>>,
 	TError,
@@ -282,19 +319,22 @@ export const createLoginRecoverPassword = <TError = HTTPValidationError, TContex
  * Reset password
  * @summary Reset Password
  */
-export const loginResetPassword = (newPassword: NewPassword, signal?: AbortSignal) => {
+export const loginResetPassword = (
+	newPassword: NewPassword,
+	signal?: AbortSignal,
+) => {
 	return clientWrapper<Message>({
-		url: `/api/v1/reset-password/`,
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
+		url: "/api/v1/reset-password/",
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
 		data: newPassword,
-		signal
+		signal,
 	});
 };
 
 export const getLoginResetPasswordMutationOptions = <
 	TError = HTTPValidationError,
-	TContext = unknown
+	TContext = unknown,
 >(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof loginResetPassword>>,
@@ -308,9 +348,11 @@ export const getLoginResetPasswordMutationOptions = <
 	{ data: NewPassword },
 	TContext
 > => {
-	const mutationKey = ['loginResetPassword'];
+	const mutationKey = ["loginResetPassword"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
@@ -336,7 +378,10 @@ export type LoginResetPasswordMutationError = HTTPValidationError;
 /**
  * @summary Reset Password
  */
-export const createLoginResetPassword = <TError = HTTPValidationError, TContext = unknown>(
+export const createLoginResetPassword = <
+	TError = HTTPValidationError,
+	TContext = unknown,
+>(
 	options?: {
 		mutation?: CreateMutationOptions<
 			Awaited<ReturnType<typeof loginResetPassword>>,
@@ -345,7 +390,7 @@ export const createLoginResetPassword = <TError = HTTPValidationError, TContext 
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
+	queryClient?: QueryClient,
 ): CreateMutationResult<
 	Awaited<ReturnType<typeof loginResetPassword>>,
 	TError,
@@ -361,17 +406,20 @@ export const createLoginResetPassword = <TError = HTTPValidationError, TContext 
  * HTML Content for Password Recovery
  * @summary Recover Password Html Content
  */
-export const loginRecoverPasswordHtmlContent = (email: string, signal?: AbortSignal) => {
+export const loginRecoverPasswordHtmlContent = (
+	email: string,
+	signal?: AbortSignal,
+) => {
 	return clientWrapper<string>({
 		url: `/api/v1/password-recovery-html-content/${email}`,
-		method: 'POST',
-		signal
+		method: "POST",
+		signal,
 	});
 };
 
 export const getLoginRecoverPasswordHtmlContentMutationOptions = <
 	TError = HTTPValidationError,
-	TContext = unknown
+	TContext = unknown,
 >(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof loginRecoverPasswordHtmlContent>>,
@@ -385,9 +433,11 @@ export const getLoginRecoverPasswordHtmlContentMutationOptions = <
 	{ email: string },
 	TContext
 > => {
-	const mutationKey = ['loginRecoverPasswordHtmlContent'];
+	const mutationKey = ["loginRecoverPasswordHtmlContent"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
@@ -415,7 +465,7 @@ export type LoginRecoverPasswordHtmlContentMutationError = HTTPValidationError;
  */
 export const createLoginRecoverPasswordHtmlContent = <
 	TError = HTTPValidationError,
-	TContext = unknown
+	TContext = unknown,
 >(
 	options?: {
 		mutation?: CreateMutationOptions<
@@ -425,14 +475,15 @@ export const createLoginRecoverPasswordHtmlContent = <
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
+	queryClient?: QueryClient,
 ): CreateMutationResult<
 	Awaited<ReturnType<typeof loginRecoverPasswordHtmlContent>>,
 	TError,
 	{ email: string },
 	TContext
 > => {
-	const mutationOptions = getLoginRecoverPasswordHtmlContentMutationOptions(options);
+	const mutationOptions =
+		getLoginRecoverPasswordHtmlContentMutationOptions(options);
 
 	return createMutation(mutationOptions, queryClient);
 };
@@ -441,29 +492,44 @@ export const createLoginRecoverPasswordHtmlContent = <
  * Retrieve users.
  * @summary Read Users
  */
-export const usersReadUsers = (params?: UsersReadUsersParams, signal?: AbortSignal) => {
-	return clientWrapper<UsersPublic>({ url: `/api/v1/users/`, method: 'GET', params, signal });
+export const usersReadUsers = (
+	params?: UsersReadUsersParams,
+	signal?: AbortSignal,
+) => {
+	return clientWrapper<UsersPublic>({
+		url: "/api/v1/users/",
+		method: "GET",
+		params,
+		signal,
+	});
 };
 
 export const getUsersReadUsersQueryKey = (params?: UsersReadUsersParams) => {
-	return [`/api/v1/users/`, ...(params ? [params] : [])] as const;
+	return ["/api/v1/users/", ...(params ? [params] : [])] as const;
 };
 
 export const getUsersReadUsersQueryOptions = <
 	TData = Awaited<ReturnType<typeof usersReadUsers>>,
-	TError = HTTPValidationError
+	TError = HTTPValidationError,
 >(
 	params?: UsersReadUsersParams,
 	options?: {
-		query?: Partial<CreateQueryOptions<Awaited<ReturnType<typeof usersReadUsers>>, TError, TData>>;
-	}
+		query?: Partial<
+			CreateQueryOptions<
+				Awaited<ReturnType<typeof usersReadUsers>>,
+				TError,
+				TData
+			>
+		>;
+	},
 ) => {
 	const { query: queryOptions } = options ?? {};
 
 	const queryKey = queryOptions?.queryKey ?? getUsersReadUsersQueryKey(params);
 
-	const queryFn: QueryFunction<Awaited<ReturnType<typeof usersReadUsers>>> = ({ signal }) =>
-		usersReadUsers(params, signal);
+	const queryFn: QueryFunction<Awaited<ReturnType<typeof usersReadUsers>>> = ({
+		signal,
+	}) => usersReadUsers(params, signal);
 
 	return { queryKey, queryFn, ...queryOptions } as CreateQueryOptions<
 		Awaited<ReturnType<typeof usersReadUsers>>,
@@ -472,7 +538,9 @@ export const getUsersReadUsersQueryOptions = <
 	> & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type UsersReadUsersQueryResult = NonNullable<Awaited<ReturnType<typeof usersReadUsers>>>;
+export type UsersReadUsersQueryResult = NonNullable<
+	Awaited<ReturnType<typeof usersReadUsers>>
+>;
 export type UsersReadUsersQueryError = HTTPValidationError;
 
 /**
@@ -481,17 +549,28 @@ export type UsersReadUsersQueryError = HTTPValidationError;
 
 export function createUsersReadUsers<
 	TData = Awaited<ReturnType<typeof usersReadUsers>>,
-	TError = HTTPValidationError
+	TError = HTTPValidationError,
 >(
 	params?: UsersReadUsersParams,
 	options?: {
-		query?: Partial<CreateQueryOptions<Awaited<ReturnType<typeof usersReadUsers>>, TError, TData>>;
+		query?: Partial<
+			CreateQueryOptions<
+				Awaited<ReturnType<typeof usersReadUsers>>,
+				TError,
+				TData
+			>
+		>;
 	},
-	queryClient?: QueryClient
-): CreateQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+	queryClient?: QueryClient,
+): CreateQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
 	const queryOptions = getUsersReadUsersQueryOptions(params, options);
 
-	const query = createQuery(queryOptions, queryClient) as CreateQueryResult<TData, TError> & {
+	const query = createQuery(queryOptions, queryClient) as CreateQueryResult<
+		TData,
+		TError
+	> & {
 		queryKey: DataTag<QueryKey, TData, TError>;
 	};
 
@@ -504,19 +583,22 @@ export function createUsersReadUsers<
  * Create new user.
  * @summary Create User
  */
-export const usersCreateUser = (userCreate: UserCreate, signal?: AbortSignal) => {
+export const usersCreateUser = (
+	userCreate: UserCreate,
+	signal?: AbortSignal,
+) => {
 	return clientWrapper<UserPublic>({
-		url: `/api/v1/users/`,
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
+		url: "/api/v1/users/",
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
 		data: userCreate,
-		signal
+		signal,
 	});
 };
 
 export const getUsersCreateUserMutationOptions = <
 	TError = HTTPValidationError,
-	TContext = unknown
+	TContext = unknown,
 >(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof usersCreateUser>>,
@@ -530,9 +612,11 @@ export const getUsersCreateUserMutationOptions = <
 	{ data: UserCreate },
 	TContext
 > => {
-	const mutationKey = ['usersCreateUser'];
+	const mutationKey = ["usersCreateUser"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
@@ -558,7 +642,10 @@ export type UsersCreateUserMutationError = HTTPValidationError;
 /**
  * @summary Create User
  */
-export const createUsersCreateUser = <TError = HTTPValidationError, TContext = unknown>(
+export const createUsersCreateUser = <
+	TError = HTTPValidationError,
+	TContext = unknown,
+>(
 	options?: {
 		mutation?: CreateMutationOptions<
 			Awaited<ReturnType<typeof usersCreateUser>>,
@@ -567,7 +654,7 @@ export const createUsersCreateUser = <TError = HTTPValidationError, TContext = u
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
+	queryClient?: QueryClient,
 ): CreateMutationResult<
 	Awaited<ReturnType<typeof usersCreateUser>>,
 	TError,
@@ -584,25 +671,36 @@ export const createUsersCreateUser = <TError = HTTPValidationError, TContext = u
  * @summary Read User Me
  */
 export const usersReadUserMe = (signal?: AbortSignal) => {
-	return clientWrapper<UserPublic>({ url: `/api/v1/users/me`, method: 'GET', signal });
+	return clientWrapper<UserPublic>({
+		url: "/api/v1/users/me",
+		method: "GET",
+		signal,
+	});
 };
 
 export const getUsersReadUserMeQueryKey = () => {
-	return [`/api/v1/users/me`] as const;
+	return ["/api/v1/users/me"] as const;
 };
 
 export const getUsersReadUserMeQueryOptions = <
 	TData = Awaited<ReturnType<typeof usersReadUserMe>>,
-	TError = unknown
+	TError = unknown,
 >(options?: {
-	query?: Partial<CreateQueryOptions<Awaited<ReturnType<typeof usersReadUserMe>>, TError, TData>>;
+	query?: Partial<
+		CreateQueryOptions<
+			Awaited<ReturnType<typeof usersReadUserMe>>,
+			TError,
+			TData
+		>
+	>;
 }) => {
 	const { query: queryOptions } = options ?? {};
 
 	const queryKey = queryOptions?.queryKey ?? getUsersReadUserMeQueryKey();
 
-	const queryFn: QueryFunction<Awaited<ReturnType<typeof usersReadUserMe>>> = ({ signal }) =>
-		usersReadUserMe(signal);
+	const queryFn: QueryFunction<Awaited<ReturnType<typeof usersReadUserMe>>> = ({
+		signal,
+	}) => usersReadUserMe(signal);
 
 	return { queryKey, queryFn, ...queryOptions } as CreateQueryOptions<
 		Awaited<ReturnType<typeof usersReadUserMe>>,
@@ -611,7 +709,9 @@ export const getUsersReadUserMeQueryOptions = <
 	> & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type UsersReadUserMeQueryResult = NonNullable<Awaited<ReturnType<typeof usersReadUserMe>>>;
+export type UsersReadUserMeQueryResult = NonNullable<
+	Awaited<ReturnType<typeof usersReadUserMe>>
+>;
 export type UsersReadUserMeQueryError = unknown;
 
 /**
@@ -620,16 +720,27 @@ export type UsersReadUserMeQueryError = unknown;
 
 export function createUsersReadUserMe<
 	TData = Awaited<ReturnType<typeof usersReadUserMe>>,
-	TError = unknown
+	TError = unknown,
 >(
 	options?: {
-		query?: Partial<CreateQueryOptions<Awaited<ReturnType<typeof usersReadUserMe>>, TError, TData>>;
+		query?: Partial<
+			CreateQueryOptions<
+				Awaited<ReturnType<typeof usersReadUserMe>>,
+				TError,
+				TData
+			>
+		>;
 	},
-	queryClient?: QueryClient
-): CreateQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+	queryClient?: QueryClient,
+): CreateQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
 	const queryOptions = getUsersReadUserMeQueryOptions(options);
 
-	const query = createQuery(queryOptions, queryClient) as CreateQueryResult<TData, TError> & {
+	const query = createQuery(queryOptions, queryClient) as CreateQueryResult<
+		TData,
+		TError
+	> & {
 		queryKey: DataTag<QueryKey, TData, TError>;
 	};
 
@@ -643,12 +754,12 @@ export function createUsersReadUserMe<
  * @summary Delete User Me
  */
 export const usersDeleteUserMe = () => {
-	return clientWrapper<Message>({ url: `/api/v1/users/me`, method: 'DELETE' });
+	return clientWrapper<Message>({ url: "/api/v1/users/me", method: "DELETE" });
 };
 
 export const getUsersDeleteUserMeMutationOptions = <
 	TError = unknown,
-	TContext = unknown
+	TContext = unknown,
 >(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof usersDeleteUserMe>>,
@@ -662,14 +773,19 @@ export const getUsersDeleteUserMeMutationOptions = <
 	void,
 	TContext
 > => {
-	const mutationKey = ['usersDeleteUserMe'];
+	const mutationKey = ["usersDeleteUserMe"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
 
-	const mutationFn: MutationFunction<Awaited<ReturnType<typeof usersDeleteUserMe>>, void> = () => {
+	const mutationFn: MutationFunction<
+		Awaited<ReturnType<typeof usersDeleteUserMe>>,
+		void
+	> = () => {
 		return usersDeleteUserMe();
 	};
 
@@ -694,8 +810,13 @@ export const createUsersDeleteUserMe = <TError = unknown, TContext = unknown>(
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
-): CreateMutationResult<Awaited<ReturnType<typeof usersDeleteUserMe>>, TError, void, TContext> => {
+	queryClient?: QueryClient,
+): CreateMutationResult<
+	Awaited<ReturnType<typeof usersDeleteUserMe>>,
+	TError,
+	void,
+	TContext
+> => {
 	const mutationOptions = getUsersDeleteUserMeMutationOptions(options);
 
 	return createMutation(mutationOptions, queryClient);
@@ -707,16 +828,16 @@ export const createUsersDeleteUserMe = <TError = unknown, TContext = unknown>(
  */
 export const usersUpdateUserMe = (userUpdateMe: UserUpdateMe) => {
 	return clientWrapper<UserPublic>({
-		url: `/api/v1/users/me`,
-		method: 'PATCH',
-		headers: { 'Content-Type': 'application/json' },
-		data: userUpdateMe
+		url: "/api/v1/users/me",
+		method: "PATCH",
+		headers: { "Content-Type": "application/json" },
+		data: userUpdateMe,
 	});
 };
 
 export const getUsersUpdateUserMeMutationOptions = <
 	TError = HTTPValidationError,
-	TContext = unknown
+	TContext = unknown,
 >(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof usersUpdateUserMe>>,
@@ -730,9 +851,11 @@ export const getUsersUpdateUserMeMutationOptions = <
 	{ data: UserUpdateMe },
 	TContext
 > => {
-	const mutationKey = ['usersUpdateUserMe'];
+	const mutationKey = ["usersUpdateUserMe"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
@@ -758,7 +881,10 @@ export type UsersUpdateUserMeMutationError = HTTPValidationError;
 /**
  * @summary Update User Me
  */
-export const createUsersUpdateUserMe = <TError = HTTPValidationError, TContext = unknown>(
+export const createUsersUpdateUserMe = <
+	TError = HTTPValidationError,
+	TContext = unknown,
+>(
 	options?: {
 		mutation?: CreateMutationOptions<
 			Awaited<ReturnType<typeof usersUpdateUserMe>>,
@@ -767,7 +893,7 @@ export const createUsersUpdateUserMe = <TError = HTTPValidationError, TContext =
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
+	queryClient?: QueryClient,
 ): CreateMutationResult<
 	Awaited<ReturnType<typeof usersUpdateUserMe>>,
 	TError,
@@ -785,16 +911,16 @@ export const createUsersUpdateUserMe = <TError = HTTPValidationError, TContext =
  */
 export const usersUpdatePasswordMe = (updatePassword: UpdatePassword) => {
 	return clientWrapper<Message>({
-		url: `/api/v1/users/me/password`,
-		method: 'PATCH',
-		headers: { 'Content-Type': 'application/json' },
-		data: updatePassword
+		url: "/api/v1/users/me/password",
+		method: "PATCH",
+		headers: { "Content-Type": "application/json" },
+		data: updatePassword,
 	});
 };
 
 export const getUsersUpdatePasswordMeMutationOptions = <
 	TError = HTTPValidationError,
-	TContext = unknown
+	TContext = unknown,
 >(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof usersUpdatePasswordMe>>,
@@ -808,9 +934,11 @@ export const getUsersUpdatePasswordMeMutationOptions = <
 	{ data: UpdatePassword },
 	TContext
 > => {
-	const mutationKey = ['usersUpdatePasswordMe'];
+	const mutationKey = ["usersUpdatePasswordMe"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
@@ -836,7 +964,10 @@ export type UsersUpdatePasswordMeMutationError = HTTPValidationError;
 /**
  * @summary Update Password Me
  */
-export const createUsersUpdatePasswordMe = <TError = HTTPValidationError, TContext = unknown>(
+export const createUsersUpdatePasswordMe = <
+	TError = HTTPValidationError,
+	TContext = unknown,
+>(
 	options?: {
 		mutation?: CreateMutationOptions<
 			Awaited<ReturnType<typeof usersUpdatePasswordMe>>,
@@ -845,7 +976,7 @@ export const createUsersUpdatePasswordMe = <TError = HTTPValidationError, TConte
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
+	queryClient?: QueryClient,
 ): CreateMutationResult<
 	Awaited<ReturnType<typeof usersUpdatePasswordMe>>,
 	TError,
@@ -861,19 +992,22 @@ export const createUsersUpdatePasswordMe = <TError = HTTPValidationError, TConte
  * Create new user without the need to be logged in.
  * @summary Register User
  */
-export const usersRegisterUser = (userRegister: UserRegister, signal?: AbortSignal) => {
+export const usersRegisterUser = (
+	userRegister: UserRegister,
+	signal?: AbortSignal,
+) => {
 	return clientWrapper<UserPublic>({
-		url: `/api/v1/users/signup`,
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
+		url: "/api/v1/users/signup",
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
 		data: userRegister,
-		signal
+		signal,
 	});
 };
 
 export const getUsersRegisterUserMutationOptions = <
 	TError = HTTPValidationError,
-	TContext = unknown
+	TContext = unknown,
 >(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof usersRegisterUser>>,
@@ -887,9 +1021,11 @@ export const getUsersRegisterUserMutationOptions = <
 	{ data: UserRegister },
 	TContext
 > => {
-	const mutationKey = ['usersRegisterUser'];
+	const mutationKey = ["usersRegisterUser"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
@@ -915,7 +1051,10 @@ export type UsersRegisterUserMutationError = HTTPValidationError;
 /**
  * @summary Register User
  */
-export const createUsersRegisterUser = <TError = HTTPValidationError, TContext = unknown>(
+export const createUsersRegisterUser = <
+	TError = HTTPValidationError,
+	TContext = unknown,
+>(
 	options?: {
 		mutation?: CreateMutationOptions<
 			Awaited<ReturnType<typeof usersRegisterUser>>,
@@ -924,7 +1063,7 @@ export const createUsersRegisterUser = <TError = HTTPValidationError, TContext =
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
+	queryClient?: QueryClient,
 ): CreateMutationResult<
 	Awaited<ReturnType<typeof usersRegisterUser>>,
 	TError,
@@ -941,7 +1080,11 @@ export const createUsersRegisterUser = <TError = HTTPValidationError, TContext =
  * @summary Read User By Id
  */
 export const usersReadUserById = (userId: string, signal?: AbortSignal) => {
-	return clientWrapper<UserPublic>({ url: `/api/v1/users/${userId}`, method: 'GET', signal });
+	return clientWrapper<UserPublic>({
+		url: `/api/v1/users/${userId}`,
+		method: "GET",
+		signal,
+	});
 };
 
 export const getUsersReadUserByIdQueryKey = (userId: string) => {
@@ -950,23 +1093,34 @@ export const getUsersReadUserByIdQueryKey = (userId: string) => {
 
 export const getUsersReadUserByIdQueryOptions = <
 	TData = Awaited<ReturnType<typeof usersReadUserById>>,
-	TError = HTTPValidationError
+	TError = HTTPValidationError,
 >(
 	userId: string,
 	options?: {
 		query?: Partial<
-			CreateQueryOptions<Awaited<ReturnType<typeof usersReadUserById>>, TError, TData>
+			CreateQueryOptions<
+				Awaited<ReturnType<typeof usersReadUserById>>,
+				TError,
+				TData
+			>
 		>;
-	}
+	},
 ) => {
 	const { query: queryOptions } = options ?? {};
 
-	const queryKey = queryOptions?.queryKey ?? getUsersReadUserByIdQueryKey(userId);
+	const queryKey =
+		queryOptions?.queryKey ?? getUsersReadUserByIdQueryKey(userId);
 
-	const queryFn: QueryFunction<Awaited<ReturnType<typeof usersReadUserById>>> = ({ signal }) =>
-		usersReadUserById(userId, signal);
+	const queryFn: QueryFunction<
+		Awaited<ReturnType<typeof usersReadUserById>>
+	> = ({ signal }) => usersReadUserById(userId, signal);
 
-	return { queryKey, queryFn, enabled: !!userId, ...queryOptions } as CreateQueryOptions<
+	return {
+		queryKey,
+		queryFn,
+		enabled: !!userId,
+		...queryOptions,
+	} as CreateQueryOptions<
 		Awaited<ReturnType<typeof usersReadUserById>>,
 		TError,
 		TData
@@ -984,19 +1138,28 @@ export type UsersReadUserByIdQueryError = HTTPValidationError;
 
 export function createUsersReadUserById<
 	TData = Awaited<ReturnType<typeof usersReadUserById>>,
-	TError = HTTPValidationError
+	TError = HTTPValidationError,
 >(
 	userId: string,
 	options?: {
 		query?: Partial<
-			CreateQueryOptions<Awaited<ReturnType<typeof usersReadUserById>>, TError, TData>
+			CreateQueryOptions<
+				Awaited<ReturnType<typeof usersReadUserById>>,
+				TError,
+				TData
+			>
 		>;
 	},
-	queryClient?: QueryClient
-): CreateQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+	queryClient?: QueryClient,
+): CreateQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
 	const queryOptions = getUsersReadUserByIdQueryOptions(userId, options);
 
-	const query = createQuery(queryOptions, queryClient) as CreateQueryResult<TData, TError> & {
+	const query = createQuery(queryOptions, queryClient) as CreateQueryResult<
+		TData,
+		TError
+	> & {
 		queryKey: DataTag<QueryKey, TData, TError>;
 	};
 
@@ -1012,15 +1175,15 @@ export function createUsersReadUserById<
 export const usersUpdateUser = (userId: string, userUpdate: UserUpdate) => {
 	return clientWrapper<UserPublic>({
 		url: `/api/v1/users/${userId}`,
-		method: 'PATCH',
-		headers: { 'Content-Type': 'application/json' },
-		data: userUpdate
+		method: "PATCH",
+		headers: { "Content-Type": "application/json" },
+		data: userUpdate,
 	});
 };
 
 export const getUsersUpdateUserMutationOptions = <
 	TError = HTTPValidationError,
-	TContext = unknown
+	TContext = unknown,
 >(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof usersUpdateUser>>,
@@ -1034,9 +1197,11 @@ export const getUsersUpdateUserMutationOptions = <
 	{ userId: string; data: UserUpdate },
 	TContext
 > => {
-	const mutationKey = ['usersUpdateUser'];
+	const mutationKey = ["usersUpdateUser"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
@@ -1062,7 +1227,10 @@ export type UsersUpdateUserMutationError = HTTPValidationError;
 /**
  * @summary Update User
  */
-export const createUsersUpdateUser = <TError = HTTPValidationError, TContext = unknown>(
+export const createUsersUpdateUser = <
+	TError = HTTPValidationError,
+	TContext = unknown,
+>(
 	options?: {
 		mutation?: CreateMutationOptions<
 			Awaited<ReturnType<typeof usersUpdateUser>>,
@@ -1071,7 +1239,7 @@ export const createUsersUpdateUser = <TError = HTTPValidationError, TContext = u
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
+	queryClient?: QueryClient,
 ): CreateMutationResult<
 	Awaited<ReturnType<typeof usersUpdateUser>>,
 	TError,
@@ -1088,12 +1256,15 @@ export const createUsersUpdateUser = <TError = HTTPValidationError, TContext = u
  * @summary Delete User
  */
 export const usersDeleteUser = (userId: string) => {
-	return clientWrapper<Message>({ url: `/api/v1/users/${userId}`, method: 'DELETE' });
+	return clientWrapper<Message>({
+		url: `/api/v1/users/${userId}`,
+		method: "DELETE",
+	});
 };
 
 export const getUsersDeleteUserMutationOptions = <
 	TError = HTTPValidationError,
-	TContext = unknown
+	TContext = unknown,
 >(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof usersDeleteUser>>,
@@ -1107,9 +1278,11 @@ export const getUsersDeleteUserMutationOptions = <
 	{ userId: string },
 	TContext
 > => {
-	const mutationKey = ['usersDeleteUser'];
+	const mutationKey = ["usersDeleteUser"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
@@ -1135,7 +1308,10 @@ export type UsersDeleteUserMutationError = HTTPValidationError;
 /**
  * @summary Delete User
  */
-export const createUsersDeleteUser = <TError = HTTPValidationError, TContext = unknown>(
+export const createUsersDeleteUser = <
+	TError = HTTPValidationError,
+	TContext = unknown,
+>(
 	options?: {
 		mutation?: CreateMutationOptions<
 			Awaited<ReturnType<typeof usersDeleteUser>>,
@@ -1144,7 +1320,7 @@ export const createUsersDeleteUser = <TError = HTTPValidationError, TContext = u
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
+	queryClient?: QueryClient,
 ): CreateMutationResult<
 	Awaited<ReturnType<typeof usersDeleteUser>>,
 	TError,
@@ -1160,18 +1336,21 @@ export const createUsersDeleteUser = <TError = HTTPValidationError, TContext = u
  * Test emails.
  * @summary Test Email
  */
-export const utilsTestEmail = (params: UtilsTestEmailParams, signal?: AbortSignal) => {
+export const utilsTestEmail = (
+	params: UtilsTestEmailParams,
+	signal?: AbortSignal,
+) => {
 	return clientWrapper<Message>({
-		url: `/api/v1/utils/test-email/`,
-		method: 'POST',
+		url: "/api/v1/utils/test-email/",
+		method: "POST",
 		params,
-		signal
+		signal,
 	});
 };
 
 export const getUtilsTestEmailMutationOptions = <
 	TError = HTTPValidationError,
-	TContext = unknown
+	TContext = unknown,
 >(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof utilsTestEmail>>,
@@ -1185,9 +1364,11 @@ export const getUtilsTestEmailMutationOptions = <
 	{ params: UtilsTestEmailParams },
 	TContext
 > => {
-	const mutationKey = ['utilsTestEmail'];
+	const mutationKey = ["utilsTestEmail"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
@@ -1204,14 +1385,19 @@ export const getUtilsTestEmailMutationOptions = <
 	return { mutationFn, ...mutationOptions };
 };
 
-export type UtilsTestEmailMutationResult = NonNullable<Awaited<ReturnType<typeof utilsTestEmail>>>;
+export type UtilsTestEmailMutationResult = NonNullable<
+	Awaited<ReturnType<typeof utilsTestEmail>>
+>;
 
 export type UtilsTestEmailMutationError = HTTPValidationError;
 
 /**
  * @summary Test Email
  */
-export const createUtilsTestEmail = <TError = HTTPValidationError, TContext = unknown>(
+export const createUtilsTestEmail = <
+	TError = HTTPValidationError,
+	TContext = unknown,
+>(
 	options?: {
 		mutation?: CreateMutationOptions<
 			Awaited<ReturnType<typeof utilsTestEmail>>,
@@ -1220,7 +1406,7 @@ export const createUtilsTestEmail = <TError = HTTPValidationError, TContext = un
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
+	queryClient?: QueryClient,
 ): CreateMutationResult<
 	Awaited<ReturnType<typeof utilsTestEmail>>,
 	TError,
@@ -1236,25 +1422,36 @@ export const createUtilsTestEmail = <TError = HTTPValidationError, TContext = un
  * @summary Health Check
  */
 export const utilsHealthCheck = (signal?: AbortSignal) => {
-	return clientWrapper<boolean>({ url: `/api/v1/utils/health-check/`, method: 'GET', signal });
+	return clientWrapper<boolean>({
+		url: "/api/v1/utils/health-check/",
+		method: "GET",
+		signal,
+	});
 };
 
 export const getUtilsHealthCheckQueryKey = () => {
-	return [`/api/v1/utils/health-check/`] as const;
+	return ["/api/v1/utils/health-check/"] as const;
 };
 
 export const getUtilsHealthCheckQueryOptions = <
 	TData = Awaited<ReturnType<typeof utilsHealthCheck>>,
-	TError = unknown
+	TError = unknown,
 >(options?: {
-	query?: Partial<CreateQueryOptions<Awaited<ReturnType<typeof utilsHealthCheck>>, TError, TData>>;
+	query?: Partial<
+		CreateQueryOptions<
+			Awaited<ReturnType<typeof utilsHealthCheck>>,
+			TError,
+			TData
+		>
+	>;
 }) => {
 	const { query: queryOptions } = options ?? {};
 
 	const queryKey = queryOptions?.queryKey ?? getUtilsHealthCheckQueryKey();
 
-	const queryFn: QueryFunction<Awaited<ReturnType<typeof utilsHealthCheck>>> = ({ signal }) =>
-		utilsHealthCheck(signal);
+	const queryFn: QueryFunction<
+		Awaited<ReturnType<typeof utilsHealthCheck>>
+	> = ({ signal }) => utilsHealthCheck(signal);
 
 	return { queryKey, queryFn, ...queryOptions } as CreateQueryOptions<
 		Awaited<ReturnType<typeof utilsHealthCheck>>,
@@ -1263,7 +1460,9 @@ export const getUtilsHealthCheckQueryOptions = <
 	> & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type UtilsHealthCheckQueryResult = NonNullable<Awaited<ReturnType<typeof utilsHealthCheck>>>;
+export type UtilsHealthCheckQueryResult = NonNullable<
+	Awaited<ReturnType<typeof utilsHealthCheck>>
+>;
 export type UtilsHealthCheckQueryError = unknown;
 
 /**
@@ -1272,18 +1471,27 @@ export type UtilsHealthCheckQueryError = unknown;
 
 export function createUtilsHealthCheck<
 	TData = Awaited<ReturnType<typeof utilsHealthCheck>>,
-	TError = unknown
+	TError = unknown,
 >(
 	options?: {
 		query?: Partial<
-			CreateQueryOptions<Awaited<ReturnType<typeof utilsHealthCheck>>, TError, TData>
+			CreateQueryOptions<
+				Awaited<ReturnType<typeof utilsHealthCheck>>,
+				TError,
+				TData
+			>
 		>;
 	},
-	queryClient?: QueryClient
-): CreateQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+	queryClient?: QueryClient,
+): CreateQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
 	const queryOptions = getUtilsHealthCheckQueryOptions(options);
 
-	const query = createQuery(queryOptions, queryClient) as CreateQueryResult<TData, TError> & {
+	const query = createQuery(queryOptions, queryClient) as CreateQueryResult<
+		TData,
+		TError
+	> & {
 		queryKey: DataTag<QueryKey, TData, TError>;
 	};
 
@@ -1296,29 +1504,44 @@ export function createUtilsHealthCheck<
  * Retrieve items.
  * @summary Read Items
  */
-export const itemsReadItems = (params?: ItemsReadItemsParams, signal?: AbortSignal) => {
-	return clientWrapper<ItemsPublic>({ url: `/api/v1/items/`, method: 'GET', params, signal });
+export const itemsReadItems = (
+	params?: ItemsReadItemsParams,
+	signal?: AbortSignal,
+) => {
+	return clientWrapper<ItemsPublic>({
+		url: "/api/v1/items/",
+		method: "GET",
+		params,
+		signal,
+	});
 };
 
 export const getItemsReadItemsQueryKey = (params?: ItemsReadItemsParams) => {
-	return [`/api/v1/items/`, ...(params ? [params] : [])] as const;
+	return ["/api/v1/items/", ...(params ? [params] : [])] as const;
 };
 
 export const getItemsReadItemsQueryOptions = <
 	TData = Awaited<ReturnType<typeof itemsReadItems>>,
-	TError = HTTPValidationError
+	TError = HTTPValidationError,
 >(
 	params?: ItemsReadItemsParams,
 	options?: {
-		query?: Partial<CreateQueryOptions<Awaited<ReturnType<typeof itemsReadItems>>, TError, TData>>;
-	}
+		query?: Partial<
+			CreateQueryOptions<
+				Awaited<ReturnType<typeof itemsReadItems>>,
+				TError,
+				TData
+			>
+		>;
+	},
 ) => {
 	const { query: queryOptions } = options ?? {};
 
 	const queryKey = queryOptions?.queryKey ?? getItemsReadItemsQueryKey(params);
 
-	const queryFn: QueryFunction<Awaited<ReturnType<typeof itemsReadItems>>> = ({ signal }) =>
-		itemsReadItems(params, signal);
+	const queryFn: QueryFunction<Awaited<ReturnType<typeof itemsReadItems>>> = ({
+		signal,
+	}) => itemsReadItems(params, signal);
 
 	return { queryKey, queryFn, ...queryOptions } as CreateQueryOptions<
 		Awaited<ReturnType<typeof itemsReadItems>>,
@@ -1327,7 +1550,9 @@ export const getItemsReadItemsQueryOptions = <
 	> & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type ItemsReadItemsQueryResult = NonNullable<Awaited<ReturnType<typeof itemsReadItems>>>;
+export type ItemsReadItemsQueryResult = NonNullable<
+	Awaited<ReturnType<typeof itemsReadItems>>
+>;
 export type ItemsReadItemsQueryError = HTTPValidationError;
 
 /**
@@ -1336,17 +1561,28 @@ export type ItemsReadItemsQueryError = HTTPValidationError;
 
 export function createItemsReadItems<
 	TData = Awaited<ReturnType<typeof itemsReadItems>>,
-	TError = HTTPValidationError
+	TError = HTTPValidationError,
 >(
 	params?: ItemsReadItemsParams,
 	options?: {
-		query?: Partial<CreateQueryOptions<Awaited<ReturnType<typeof itemsReadItems>>, TError, TData>>;
+		query?: Partial<
+			CreateQueryOptions<
+				Awaited<ReturnType<typeof itemsReadItems>>,
+				TError,
+				TData
+			>
+		>;
 	},
-	queryClient?: QueryClient
-): CreateQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+	queryClient?: QueryClient,
+): CreateQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
 	const queryOptions = getItemsReadItemsQueryOptions(params, options);
 
-	const query = createQuery(queryOptions, queryClient) as CreateQueryResult<TData, TError> & {
+	const query = createQuery(queryOptions, queryClient) as CreateQueryResult<
+		TData,
+		TError
+	> & {
 		queryKey: DataTag<QueryKey, TData, TError>;
 	};
 
@@ -1359,19 +1595,22 @@ export function createItemsReadItems<
  * Create new item.
  * @summary Create Item
  */
-export const itemsCreateItem = (itemCreate: ItemCreate, signal?: AbortSignal) => {
+export const itemsCreateItem = (
+	itemCreate: ItemCreate,
+	signal?: AbortSignal,
+) => {
 	return clientWrapper<ItemPublic>({
-		url: `/api/v1/items/`,
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
+		url: "/api/v1/items/",
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
 		data: itemCreate,
-		signal
+		signal,
 	});
 };
 
 export const getItemsCreateItemMutationOptions = <
 	TError = HTTPValidationError,
-	TContext = unknown
+	TContext = unknown,
 >(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof itemsCreateItem>>,
@@ -1385,9 +1624,11 @@ export const getItemsCreateItemMutationOptions = <
 	{ data: ItemCreate },
 	TContext
 > => {
-	const mutationKey = ['itemsCreateItem'];
+	const mutationKey = ["itemsCreateItem"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
@@ -1413,7 +1654,10 @@ export type ItemsCreateItemMutationError = HTTPValidationError;
 /**
  * @summary Create Item
  */
-export const createItemsCreateItem = <TError = HTTPValidationError, TContext = unknown>(
+export const createItemsCreateItem = <
+	TError = HTTPValidationError,
+	TContext = unknown,
+>(
 	options?: {
 		mutation?: CreateMutationOptions<
 			Awaited<ReturnType<typeof itemsCreateItem>>,
@@ -1422,7 +1666,7 @@ export const createItemsCreateItem = <TError = HTTPValidationError, TContext = u
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
+	queryClient?: QueryClient,
 ): CreateMutationResult<
 	Awaited<ReturnType<typeof itemsCreateItem>>,
 	TError,
@@ -1439,7 +1683,11 @@ export const createItemsCreateItem = <TError = HTTPValidationError, TContext = u
  * @summary Read Item
  */
 export const itemsReadItem = (id: string, signal?: AbortSignal) => {
-	return clientWrapper<ItemPublic>({ url: `/api/v1/items/${id}`, method: 'GET', signal });
+	return clientWrapper<ItemPublic>({
+		url: `/api/v1/items/${id}`,
+		method: "GET",
+		signal,
+	});
 };
 
 export const getItemsReadItemQueryKey = (id: string) => {
@@ -1448,28 +1696,42 @@ export const getItemsReadItemQueryKey = (id: string) => {
 
 export const getItemsReadItemQueryOptions = <
 	TData = Awaited<ReturnType<typeof itemsReadItem>>,
-	TError = HTTPValidationError
+	TError = HTTPValidationError,
 >(
 	id: string,
 	options?: {
-		query?: Partial<CreateQueryOptions<Awaited<ReturnType<typeof itemsReadItem>>, TError, TData>>;
-	}
+		query?: Partial<
+			CreateQueryOptions<
+				Awaited<ReturnType<typeof itemsReadItem>>,
+				TError,
+				TData
+			>
+		>;
+	},
 ) => {
 	const { query: queryOptions } = options ?? {};
 
 	const queryKey = queryOptions?.queryKey ?? getItemsReadItemQueryKey(id);
 
-	const queryFn: QueryFunction<Awaited<ReturnType<typeof itemsReadItem>>> = ({ signal }) =>
-		itemsReadItem(id, signal);
+	const queryFn: QueryFunction<Awaited<ReturnType<typeof itemsReadItem>>> = ({
+		signal,
+	}) => itemsReadItem(id, signal);
 
-	return { queryKey, queryFn, enabled: !!id, ...queryOptions } as CreateQueryOptions<
+	return {
+		queryKey,
+		queryFn,
+		enabled: !!id,
+		...queryOptions,
+	} as CreateQueryOptions<
 		Awaited<ReturnType<typeof itemsReadItem>>,
 		TError,
 		TData
 	> & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type ItemsReadItemQueryResult = NonNullable<Awaited<ReturnType<typeof itemsReadItem>>>;
+export type ItemsReadItemQueryResult = NonNullable<
+	Awaited<ReturnType<typeof itemsReadItem>>
+>;
 export type ItemsReadItemQueryError = HTTPValidationError;
 
 /**
@@ -1478,17 +1740,28 @@ export type ItemsReadItemQueryError = HTTPValidationError;
 
 export function createItemsReadItem<
 	TData = Awaited<ReturnType<typeof itemsReadItem>>,
-	TError = HTTPValidationError
+	TError = HTTPValidationError,
 >(
 	id: string,
 	options?: {
-		query?: Partial<CreateQueryOptions<Awaited<ReturnType<typeof itemsReadItem>>, TError, TData>>;
+		query?: Partial<
+			CreateQueryOptions<
+				Awaited<ReturnType<typeof itemsReadItem>>,
+				TError,
+				TData
+			>
+		>;
 	},
-	queryClient?: QueryClient
-): CreateQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+	queryClient?: QueryClient,
+): CreateQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
 	const queryOptions = getItemsReadItemQueryOptions(id, options);
 
-	const query = createQuery(queryOptions, queryClient) as CreateQueryResult<TData, TError> & {
+	const query = createQuery(queryOptions, queryClient) as CreateQueryResult<
+		TData,
+		TError
+	> & {
 		queryKey: DataTag<QueryKey, TData, TError>;
 	};
 
@@ -1504,15 +1777,15 @@ export function createItemsReadItem<
 export const itemsUpdateItem = (id: string, itemUpdate: ItemUpdate) => {
 	return clientWrapper<ItemPublic>({
 		url: `/api/v1/items/${id}`,
-		method: 'PUT',
-		headers: { 'Content-Type': 'application/json' },
-		data: itemUpdate
+		method: "PUT",
+		headers: { "Content-Type": "application/json" },
+		data: itemUpdate,
 	});
 };
 
 export const getItemsUpdateItemMutationOptions = <
 	TError = HTTPValidationError,
-	TContext = unknown
+	TContext = unknown,
 >(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof itemsUpdateItem>>,
@@ -1526,9 +1799,11 @@ export const getItemsUpdateItemMutationOptions = <
 	{ id: string; data: ItemUpdate },
 	TContext
 > => {
-	const mutationKey = ['itemsUpdateItem'];
+	const mutationKey = ["itemsUpdateItem"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
@@ -1554,7 +1829,10 @@ export type ItemsUpdateItemMutationError = HTTPValidationError;
 /**
  * @summary Update Item
  */
-export const createItemsUpdateItem = <TError = HTTPValidationError, TContext = unknown>(
+export const createItemsUpdateItem = <
+	TError = HTTPValidationError,
+	TContext = unknown,
+>(
 	options?: {
 		mutation?: CreateMutationOptions<
 			Awaited<ReturnType<typeof itemsUpdateItem>>,
@@ -1563,7 +1841,7 @@ export const createItemsUpdateItem = <TError = HTTPValidationError, TContext = u
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
+	queryClient?: QueryClient,
 ): CreateMutationResult<
 	Awaited<ReturnType<typeof itemsUpdateItem>>,
 	TError,
@@ -1580,12 +1858,15 @@ export const createItemsUpdateItem = <TError = HTTPValidationError, TContext = u
  * @summary Delete Item
  */
 export const itemsDeleteItem = (id: string) => {
-	return clientWrapper<Message>({ url: `/api/v1/items/${id}`, method: 'DELETE' });
+	return clientWrapper<Message>({
+		url: `/api/v1/items/${id}`,
+		method: "DELETE",
+	});
 };
 
 export const getItemsDeleteItemMutationOptions = <
 	TError = HTTPValidationError,
-	TContext = unknown
+	TContext = unknown,
 >(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof itemsDeleteItem>>,
@@ -1599,9 +1880,11 @@ export const getItemsDeleteItemMutationOptions = <
 	{ id: string },
 	TContext
 > => {
-	const mutationKey = ['itemsDeleteItem'];
+	const mutationKey = ["itemsDeleteItem"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
@@ -1627,7 +1910,10 @@ export type ItemsDeleteItemMutationError = HTTPValidationError;
 /**
  * @summary Delete Item
  */
-export const createItemsDeleteItem = <TError = HTTPValidationError, TContext = unknown>(
+export const createItemsDeleteItem = <
+	TError = HTTPValidationError,
+	TContext = unknown,
+>(
 	options?: {
 		mutation?: CreateMutationOptions<
 			Awaited<ReturnType<typeof itemsDeleteItem>>,
@@ -1636,7 +1922,7 @@ export const createItemsDeleteItem = <TError = HTTPValidationError, TContext = u
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
+	queryClient?: QueryClient,
 ): CreateMutationResult<
 	Awaited<ReturnType<typeof itemsDeleteItem>>,
 	TError,
@@ -1652,19 +1938,22 @@ export const createItemsDeleteItem = <TError = HTTPValidationError, TContext = u
  * Create a new user.
  * @summary Create User
  */
-export const privateCreateUser = (privateUserCreate: PrivateUserCreate, signal?: AbortSignal) => {
+export const privateCreateUser = (
+	privateUserCreate: PrivateUserCreate,
+	signal?: AbortSignal,
+) => {
 	return clientWrapper<UserPublic>({
-		url: `/api/v1/private/users/`,
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
+		url: "/api/v1/private/users/",
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
 		data: privateUserCreate,
-		signal
+		signal,
 	});
 };
 
 export const getPrivateCreateUserMutationOptions = <
 	TError = HTTPValidationError,
-	TContext = unknown
+	TContext = unknown,
 >(options?: {
 	mutation?: CreateMutationOptions<
 		Awaited<ReturnType<typeof privateCreateUser>>,
@@ -1678,9 +1967,11 @@ export const getPrivateCreateUserMutationOptions = <
 	{ data: PrivateUserCreate },
 	TContext
 > => {
-	const mutationKey = ['privateCreateUser'];
+	const mutationKey = ["privateCreateUser"];
 	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+		? options.mutation &&
+			"mutationKey" in options.mutation &&
+			options.mutation.mutationKey
 			? options
 			: { ...options, mutation: { ...options.mutation, mutationKey } }
 		: { mutation: { mutationKey } };
@@ -1706,7 +1997,10 @@ export type PrivateCreateUserMutationError = HTTPValidationError;
 /**
  * @summary Create User
  */
-export const createPrivateCreateUser = <TError = HTTPValidationError, TContext = unknown>(
+export const createPrivateCreateUser = <
+	TError = HTTPValidationError,
+	TContext = unknown,
+>(
 	options?: {
 		mutation?: CreateMutationOptions<
 			Awaited<ReturnType<typeof privateCreateUser>>,
@@ -1715,7 +2009,7 @@ export const createPrivateCreateUser = <TError = HTTPValidationError, TContext =
 			TContext
 		>;
 	},
-	queryClient?: QueryClient
+	queryClient?: QueryClient,
 ): CreateMutationResult<
 	Awaited<ReturnType<typeof privateCreateUser>>,
 	TError,

@@ -1,46 +1,51 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { goto } from '$app/navigation'; 
-	import { getAccessToken } from '$lib/auth';
-	import MapForm from '$lib/components/MapForm.svelte';
-	import { createUsersReadUserMe } from '$lib/api/client'; 
-	import { extractApiError } from '$lib/api/error';
+import { goto } from "$app/navigation";
+import { createUsersReadUserMe } from "$lib/api/client";
+import { extractApiError } from "$lib/api/error";
+import { getAccessToken } from "$lib/auth";
+import MapForm from "$lib/components/MapForm.svelte";
+import { onMount } from "svelte";
 
-	let count = $state<number>(0);
-	let token = $state<string | null>(null);
-	let initialRefetchDone = false; // Non-reactive flag
+let count = $state<number>(0);
+let token = $state<string | null>(null);
+let initialRefetchDone = false; // Non-reactive flag
 
-	function increment(): void {
-		count += 1;
+function increment(): void {
+	count += 1;
+}
+
+onMount(() => {
+	const accessToken = getAccessToken();
+	if (!accessToken) {
+		goto("/login");
+	} else {
+		token = accessToken;
 	}
+});
 
-	onMount(() => {
-		const accessToken = getAccessToken();
-		if (!accessToken) {
-			goto('/login');
-		} else {
-			token = accessToken;
-		}
-	});
+const userQuery = createUsersReadUserMe({
+	query: {
+		enabled: () => !!token,
+		staleTime: 1000 * 60 * 5, // 5 minutes
+		gcTime: 1000 * 60 * 10, // 10 minutes
+	},
+});
 
-	const userQuery = createUsersReadUserMe({
-		query: {
-			enabled: () => !!token,
-			staleTime: 1000 * 60 * 5, // 5 minutes
-			gcTime: 1000 * 60 * 10 // 10 minutes
-		}
-	});
+// Effect to refetch user when token becomes available
+$effect(() => {
+	const currentToken = token;
+	const query = $userQuery;
 
-	// Effect to refetch user when token becomes available
-	$effect(() => {
-		const currentToken = token;
-		const query = $userQuery;
-
-		if (!initialRefetchDone && currentToken && query.status === 'pending' && !query.isFetching) {
-			query.refetch();
-			initialRefetchDone = true;
-		}
-	});
+	if (
+		!initialRefetchDone &&
+		currentToken &&
+		query.status === "pending" &&
+		!query.isFetching
+	) {
+		query.refetch();
+		initialRefetchDone = true;
+	}
+});
 </script>
 
 <div class="flex min-h-screen flex-col items-center justify-center gap-4 text-center">

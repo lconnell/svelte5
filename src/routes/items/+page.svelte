@@ -1,112 +1,112 @@
 <script lang="ts">
-	// For icons
-	// DaisyUI 5 supports Material Symbols Outlined with the right font loaded.
-	// If not present, add this to your app.html: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+// For icons
+// DaisyUI 5 supports Material Symbols Outlined with the right font loaded.
+// If not present, add this to your app.html: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
-	import {
-		createItemsReadItems,
-		createItemsCreateItem,
-		createItemsDeleteItem
-	} from '$lib/api/client';
-	import { queryClient } from '$lib/queryClient'; // Use the shared QueryClient instance
-	import { getItemsReadItemsQueryKey } from '$lib/api/client';
-	import type { ItemPublic } from '$lib/api/schemas';
-	import { extractApiError } from '$lib/api/error';
+import {
+	createItemsCreateItem,
+	createItemsDeleteItem,
+	createItemsReadItems,
+} from "$lib/api/client";
+import { getItemsReadItemsQueryKey } from "$lib/api/client";
+import { extractApiError } from "$lib/api/error";
+import type { ItemPublic } from "$lib/api/schemas";
+import { queryClient } from "$lib/queryClient"; // Use the shared QueryClient instance
 
-	// Modal/input/view state
-	let newTitle: string = '';
-	let newDescription: string = '';
-	let showModal: boolean = false;
-	let viewingItem: ItemPublic | null = null;
+// Modal/input/view state
+let newTitle = "";
+let newDescription = "";
+let showModal = false;
+let viewingItem: ItemPublic | null = null;
 
-	// Modal handlers
-	/**
-	 * Opens the modal for adding a new item.
-	 */
-	function openModal() {
-		showModal = true;
-	}
+// Modal handlers
+/**
+ * Opens the modal for adding a new item.
+ */
+function openModal() {
+	showModal = true;
+}
 
-	/**
-	 * Closes the modal for adding a new item and resets the input fields.
-	 */
-	function closeModal() {
+/**
+ * Closes the modal for adding a new item and resets the input fields.
+ */
+function closeModal() {
+	showModal = false;
+	newTitle = "";
+	newDescription = "";
+}
+
+/**
+ * Sets the viewing item to the provided item.
+ * @param item The item to view.
+ */
+function handleView(item: ItemPublic) {
+	viewingItem = item;
+}
+
+/**
+ * Closes the viewing item modal.
+ */
+function closeView() {
+	viewingItem = null;
+}
+
+// Query: fetch all items
+const itemsQuery = createItemsReadItems();
+
+// Use the Orval-generated query key for best practice
+// Use the global queryClient for invalidation
+
+// Mutation: create item
+const createItemMutation = createItemsCreateItem({
+	mutation: {
+		onSuccess: () => {
+			// Invalidate the items list using the Orval-generated query key
+			queryClient.invalidateQueries({ queryKey: getItemsReadItemsQueryKey() });
+		},
+	},
+});
+
+// Mutation: delete item
+const deleteItemMutation = createItemsDeleteItem({
+	mutation: {
+		onSuccess: () => {
+			// Invalidate the items list using the Orval-generated query key after deletion
+			queryClient.invalidateQueries({ queryKey: getItemsReadItemsQueryKey() });
+		},
+	},
+});
+
+// Handler for deleting an item by ID using tanstack-query mutation
+async function handleDelete(id: string) {
+	await $deleteItemMutation.mutateAsync({ id });
+}
+
+// Handler for creating a new item using tanstack-query mutation
+/**
+ * Handles form submission for creating a new item.
+ * Sends the correct payload shape required by the Orval tanstack-query mutation ({ data: ItemCreate }).
+ * Adds error handling and prevents default form submission behavior.
+ */
+// Store the last API error for display (type-safe, fixes lint error)
+let lastApiError: unknown = null;
+
+async function handleCreateItem(event: Event) {
+	event.preventDefault(); // Prevent native form submission
+	if (!newTitle.trim()) return;
+	const payload = { title: newTitle, description: newDescription || undefined };
+	try {
+		await $createItemMutation.mutateAsync({ data: payload });
+		newTitle = "";
+		newDescription = "";
 		showModal = false;
-		newTitle = '';
-		newDescription = '';
+		lastApiError = null;
+	} catch (error) {
+		lastApiError = error;
 	}
+}
 
-	/**
-	 * Sets the viewing item to the provided item.
-	 * @param item The item to view.
-	 */
-	function handleView(item: ItemPublic) {
-		viewingItem = item;
-	}
-
-	/**
-	 * Closes the viewing item modal.
-	 */
-	function closeView() {
-		viewingItem = null;
-	}
-
-	// Query: fetch all items
-	const itemsQuery = createItemsReadItems();
-
-	// Use the Orval-generated query key for best practice
-	// Use the global queryClient for invalidation
-
-	// Mutation: create item
-	const createItemMutation = createItemsCreateItem({
-		mutation: {
-			onSuccess: () => {
-				// Invalidate the items list using the Orval-generated query key
-				queryClient.invalidateQueries({ queryKey: getItemsReadItemsQueryKey() });
-			}
-		}
-	});
-
-	// Mutation: delete item
-	const deleteItemMutation = createItemsDeleteItem({
-		mutation: {
-			onSuccess: () => {
-				// Invalidate the items list using the Orval-generated query key after deletion
-				queryClient.invalidateQueries({ queryKey: getItemsReadItemsQueryKey() });
-			}
-		}
-	});
-
-	// Handler for deleting an item by ID using tanstack-query mutation
-	async function handleDelete(id: string) {
-		await $deleteItemMutation.mutateAsync({ id });
-	}
-
-	// Handler for creating a new item using tanstack-query mutation
-	/**
-	 * Handles form submission for creating a new item.
-	 * Sends the correct payload shape required by the Orval tanstack-query mutation ({ data: ItemCreate }).
-	 * Adds error handling and prevents default form submission behavior.
-	 */
-	// Store the last API error for display (type-safe, fixes lint error)
-	let lastApiError: unknown = null;
-
-	async function handleCreateItem(event: Event) {
-		event.preventDefault(); // Prevent native form submission
-		if (!newTitle.trim()) return;
-		const payload = { title: newTitle, description: newDescription || undefined };
-		try {
-			await $createItemMutation.mutateAsync({ data: payload });
-			newTitle = '';
-			newDescription = '';
-			showModal = false;
-			lastApiError = null;
-		} catch (error) {
-			lastApiError = error;
-		}
-	}
-
-	// No need for onMount; tanstack-query auto-fetches.
+// No need for onMount; tanstack-query auto-fetches.
 </script>
 
 <div class="flex flex-col items-center gap-8 py-8">

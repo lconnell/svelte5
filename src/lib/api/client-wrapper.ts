@@ -1,7 +1,7 @@
-import { PUBLIC_API_BASE_URL } from '$env/static/public';
-import { getAccessToken } from '$lib/auth';
+import { PUBLIC_API_BASE_URL } from "$env/static/public";
+import { getAccessToken } from "$lib/auth";
 
-const baseUrl = PUBLIC_API_BASE_URL || 'http://localhost:8000';
+const baseUrl = PUBLIC_API_BASE_URL || "http://localhost:8000";
 
 // Arguments for the clientWrapper function
 interface ClientWrapperArgs {
@@ -15,7 +15,9 @@ interface ClientWrapperArgs {
 }
 
 // Helper function to convert non-string values to string
-const normalizeParams = (params: Record<string, unknown>): Record<string, string> => {
+const normalizeParams = (
+	params: Record<string, unknown>,
+): Record<string, string> => {
 	const result: Record<string, string> = {};
 	for (const key in params) {
 		const value = params[key];
@@ -34,7 +36,7 @@ export const clientWrapper = async <T = unknown>({
 	data,
 	headers,
 	signal,
-	params
+	params,
 }: ClientWrapperArgs): Promise<T> => {
 	const token = getAccessToken();
 
@@ -53,18 +55,18 @@ export const clientWrapper = async <T = unknown>({
 
 	// Build headers: only set Content-Type to application/json if not already set and not form data
 	const finalHeaders: Record<string, string> = {
-		Authorization: token ? `Bearer ${token}` : '',
-		...(headers as Record<string, string>)
+		Authorization: token ? `Bearer ${token}` : "",
+		...(headers as Record<string, string>),
 	};
-	if (!isFormData && !finalHeaders['Content-Type']) {
-		finalHeaders['Content-Type'] = 'application/json';
+	if (!isFormData && !finalHeaders["Content-Type"]) {
+		finalHeaders["Content-Type"] = "application/json";
 	}
 
 	const res = await fetch(fullUrl, {
 		method,
 		headers: finalHeaders,
 		body: isFormData ? payload : payload ? JSON.stringify(payload) : undefined,
-		signal
+		signal,
 	});
 
 	const responseData = await res.json();

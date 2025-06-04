@@ -1,26 +1,26 @@
 <script lang="ts">
-	let address = '';
-	let mapSrc = '';
+const address = "";
+let mapSrc = "";
 
-	async function updateMap() {
-		if (!address) return;
+async function updateMap() {
+	if (!address) return;
 
-		const res = await fetch(
-			`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`
-		);
-		const results = await res.json();
+	const res = await fetch(
+		`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`,
+	);
+	const results = await res.json();
 
-		if (results.length) {
-			// Parse lat/lon as floats to ensure valid arithmetic for map bounds
-			const lat = parseFloat(results[0].lat);
-			const lon = parseFloat(results[0].lon);
-			const delta = 0.005;
-			mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - delta}%2C${lat - delta}%2C${lon + delta}%2C${lat + delta}&layer=mapnik&marker=${lat},${lon}`;
-		} else {
-			mapSrc = '';
-			alert('Location not found');
-		}
+	if (results.length) {
+		// Parse lat/lon as floats to ensure valid arithmetic for map bounds
+		const lat = Number.parseFloat(results[0].lat);
+		const lon = Number.parseFloat(results[0].lon);
+		const delta = 0.005;
+		mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - delta}%2C${lat - delta}%2C${lon + delta}%2C${lat + delta}&layer=mapnik&marker=${lat},${lon}`;
+	} else {
+		mapSrc = "";
+		alert("Location not found");
 	}
+}
 </script>
 
 <div class="card bg-base-100 shadow-xl">

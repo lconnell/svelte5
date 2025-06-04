@@ -4,7 +4,7 @@
  * Work Order App
  * OpenAPI spec version: 0.1.0
  */
-import type { UserCreateFullName } from './userCreateFullName';
+import type { UserCreateFullName } from "./userCreateFullName";
 
 export interface UserCreate {
 	/** @maxLength 255 */

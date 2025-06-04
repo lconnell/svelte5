@@ -4,7 +4,7 @@
  * Work Order App
  * OpenAPI spec version: 0.1.0
  */
-import type { UserPublic } from './userPublic';
+import type { UserPublic } from "./userPublic";
 
 export interface UsersPublic {
 	data: UserPublic[];
