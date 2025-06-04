@@ -1,0 +1,39 @@
+{
+  "mcpServers": {
+    "mcp-svelte-docs": {
+      "command": "node",
+      "args": [
+        "/Users/lconnell/Development/mcp/mcp-svelte-docs/dist/index.js"
+      ],
+      "env": {
+        "DEBUG": "false"
+      }
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ]
+    },
+    "supabase": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server-supabase@latest",
+        "--access-token",
+        "sbp_6668e63dd4ef5d1f7586fdd5c63b346bd9cc4243"
+      ]
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
+      "env": {
+        "BRAVE_API_KEY": "BSAbfmsKPCBwU3xH35R4dD8VWF0XBdd"
+      }
+    }
+  }
+}

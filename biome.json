@@ -2,11 +2,12 @@
 	"$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
 	"files": {
 		"ignore": [
-			".svelte-kit/**",
-			"build/**",
-			"dist/**",
+			"frontend/.svelte-kit/**",
+			"frontend/build/**",
+			"frontend/dist/**",
 			"node_modules/**",
-			"src/lib/api/openapi.json"
+			"frontend/src/lib/api/openapi.json",
+			"backend/**" 
 		]
 	},
 	"organizeImports": {

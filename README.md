@@ -1,132 +1,244 @@
-# Svelte 5 Starter Project
+# Work Order Management System
 
-A modern web application built with Svelte, SvelteKit, TypeScript, and Tailwind CSS. This project includes authentication, API integration with OpenAPI, and a responsive UI powered by DaisyUI.
+A modern, full-stack work order management application built with SvelteKit 5, Hono, and Supabase.
 
 ## 🚀 Features
 
-- ⚡ Svelte 5 with runes for fine-grained reactivity
-- 🎨 Tailwind CSS 4 with DaisyUI components
-- 🔄 TanStack Query for server state management
-- 🔒 Authentication flow with JWT
-- 📦 TypeScript for type safety
-- 🛠️ Vite for fast development and builds
-- 📝 OpenAPI integration with Orval for type-safe API clients
+- **Work Order Management**: Create, view, update, and track work orders
+- **Interactive Maps**: 
+  - Search and display any address on a map
+  - View all active work orders with location pins
+  - Multiple marker support with work order details
+- **Real-time Updates**: Powered by Supabase real-time subscriptions
+- **Authentication**: Secure JWT-based authentication with Supabase
+- **Type Safety**: Full TypeScript support with auto-generated API types
+- **Modern UI**: Beautiful, responsive interface with Tailwind CSS and DaisyUI
 
-## 🛠️ Prerequisites
+## 🛠️ Tech Stack
 
-- Node.js 18+ (LTS recommended)
-- npm or pnpm
+### Frontend
+- **SvelteKit 5** - Modern web framework with Svelte 5 runes
+- **TypeScript** - Type-safe development
+- **Tailwind CSS 4** - Utility-first CSS framework
+- **DaisyUI** - Tailwind CSS component library
+- **TanStack Query** - Powerful data synchronization
+- **Leaflet** - Interactive maps for multiple markers
+- **Orval** - Type-safe API client generation
+
+### Backend
+- **Bun** - Fast JavaScript runtime
+- **Hono** - Lightweight web framework
+- **Supabase** - Database and authentication
+- **OpenAPI/Swagger** - API documentation
+- **Zod** - Schema validation
+
+### Development Tools
+- **Biome** - Fast formatter and linter
+- **go-task** - Task runner for development workflows
+
+## 📦 Project Structure
+
+```
+├── frontend/               # SvelteKit frontend application
+│   ├── src/
+│   │   ├── lib/
+│   │   │   ├── api/       # Auto-generated API client (DO NOT EDIT)
+│   │   │   ├── components/# Reusable Svelte components
+│   │   │   │   └── maps/  # Map-related components
+│   │   │   ├── constants/ # Application constants
+│   │   │   ├── services/  # Business logic services
+│   │   │   ├── stores/    # Svelte stores
+│   │   │   └── types/     # TypeScript type definitions
+│   │   └── routes/        # SvelteKit pages
+│   └── static/            # Static assets
+├── backend/               # Hono API server
+│   ├── src/
+│   │   ├── index.ts       # Main server setup
+│   │   ├── lib/           # Shared utilities
+│   │   ├── middleware/    # Express middleware
+│   │   ├── routes/        # API route handlers
+│   │   └── schemas/       # Zod validation schemas
+│   └── supabase/
+│       └── migrations/    # Database migrations
+└── CLAUDE.md              # AI assistant instructions
+```
 
 ## 🚀 Getting Started
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/lconnell/svelte5.git
-   cd svelte5
-   ```
+### Prerequisites
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   pnpm install
-   ```
+- [Bun](https://bun.sh) (latest version)
+- [Supabase](https://supabase.com) account and project
+- [go-task](https://taskfile.dev) (optional but recommended)
 
-3. **Set up environment variables**
-   Copy `.env.example` to `.env` in the root directory.
+### Environment Setup
 
-4. **Generate API client**
-   ```bash
-   npm run openapi:fetch
-   npm run openapi:generate
-   ```
-
-5. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-
-6. **Open in browser**
-   The application will be available at `http://localhost:5173`
-
-## 📁 Project Structure
-
-```
-svelte5/
-├── src/
-│   ├── lib/
-│   │   ├── api/                  # API client and utilities
-│   │   │   ├── client.ts         # API client configuration
-│   │   │   ├── client-wrapper.ts # Axios instance wrapper
-│   │   │   ├── error.ts          # Error handling utilities
-│   │   │   ├── schemas/          # Auto-generated API schemas
-│   │   │   └── openapi.json      # OpenAPI spec
-|   │   │
-│   │   ├── auth.ts               # Authentication utilities
-│   │   ├── components/           # Reusable UI components
-│   │   │   └── MapForm.svelte    # Form component with map integration
-│   │   ├── queryClient.ts        # TanStack Query client configuration
-│   │   └── index.ts              # Library exports
-│   │
-│   ├── routes/
-│   │   ├── items/                # Items feature
-│   │   │   └── +page.svelte      # Items listing and management
-│   │   ├── login/                # Authentication
-│   │   │   └── +page.svelte      # Login page
-│   │   ├── +layout.svelte        # Root layout
-│   │   ├── +layout.ts            # Root layout server code
-│   │   └── +page.svelte          # Home page
-│   │
-│   ├── app.css                   # Global styles 
-│   ├── app.d.ts                  # TypeScript declarations
-│   └── app.html                  # HTML template
-│
-├── static/                       # Static assets
-├── .eslintrc.cjs                 # ESLint configuration
-├── .prettierrc                   # Prettier configuration
-├── postcss.config.cjs            # PostCSS configuration
-├── tailwind.config.js            # Tailwind CSS configuration
-├── tsconfig.json                 # TypeScript configuration
-├── .stylelintrc.cjs              # Stylelint configuration
-├── orval.config.ts               # Orval configuration
-└── vite.config.ts                # Vite configuration    
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd <project-directory>
 ```
 
-## 🛠️ Development Scripts
+2. Install dependencies:
+```bash
+# Install frontend dependencies
+cd frontend && bun install
 
-- `npm run dev`                   # Start development server
-- `npm run build`                 # Build for production
-- `npm run preview`               # Preview production build
-- `npm run check`                 # Run TypeScript and Svelte checks
-- `npm run check:watch`           # Run checks in watch mode
-- `npm run pretty:lint`           # Lint code
-- `npm run pretty:fix`            # Fix linting and formatting issues
-- `npm run openapi:fetch`         # Fetch latest OpenAPI schema
-- `npm run openapi:generate`      # Generate API client from OpenAPI schema
+# Install backend dependencies
+cd ../backend && bun install
+```
 
-## 🧪 Testing
+3. Set up environment variables:
 
-To run tests:
+Create `.env` files in both `frontend/` and `backend/` directories:
+
+**Frontend `.env`:**
+```env
+PUBLIC_SUPABASE_URL=your-supabase-url
+PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+PUBLIC_API_BASE_URL=http://localhost:3000
+```
+
+**Backend `.env`:**
+```env
+SUPABASE_URL=your-supabase-url
+SUPABASE_ANON_KEY=your-supabase-anon-key
+SUPABASE_SERVICE_KEY=your-supabase-service-key
+JWT_SECRET=your-jwt-secret
+NODE_ENV=development
+```
+
+### Database Setup
+
+1. Run the database migrations in your Supabase project:
+   - Copy the SQL from `backend/supabase/migrations/`
+   - Execute in Supabase SQL editor
+
+2. Enable Row Level Security (RLS) policies as needed
+
+### Development
+
+Start both frontend and backend development servers:
 
 ```bash
-npm test
+# Using go-task (recommended)
+task dev:frontend  # Frontend on http://localhost:5173
+task dev:backend   # Backend on http://localhost:3000
+
+# Or using bun directly
+cd frontend && bun run dev
+cd backend && bun run dev
 ```
 
-## 🚀 Deployment
+### API Client Generation
 
-1. **Build the application**
-   ```bash
-   npm run build
-   ```
+When you make changes to the backend API:
 
-2. **Preview the production build**
-   ```bash
-   npm run preview
-   ```
+1. Ensure the backend is running
+2. Fetch the latest OpenAPI schema:
+```bash
+task openapi:fetch:frontend
+```
+3. Generate TypeScript client:
+```bash
+task openapi:generate:frontend
+```
 
-3. **Deploy**
-   The application is ready to be deployed to any static hosting service (Vercel, Netlify, etc.)
+## 📝 Key Commands
 
-## 📝 License
+### Development
+- `task dev:frontend` - Start frontend dev server
+- `task dev:backend` - Start backend dev server with hot reload
+- `task lint` - Lint entire codebase
+- `task format` - Format code with Biome
+- `task check:frontend` - Type check frontend
 
-This project is licensed under the MIT License.
+### Building
+- `task build:frontend` - Build frontend for production
+- `task preview:frontend` - Preview production build
+
+### API Generation
+- `task openapi:fetch:frontend` - Fetch OpenAPI schema from backend
+- `task openapi:generate:frontend` - Generate TypeScript API client
+
+### Testing
+- `cd frontend && bun test` - Run frontend tests
+- `cd backend && bun test` - Run backend tests
+
+## 🏗️ Architecture
+
+### Authentication Flow
+1. User signs in via Supabase Auth
+2. Frontend receives JWT tokens
+3. API client automatically includes auth token
+4. Backend verifies JWT on protected routes
+5. User context available via `c.get('userId')`
+
+### Data Flow
+```
+Frontend (SvelteKit) 
+    ↓ (HTTP + Auth Token)
+Backend API (Hono)
+    ↓ (Supabase Client)
+Database (PostgreSQL)
+```
+
+### Map Features
+- **Single Address Search**: Uses OpenStreetMap iframe embed
+- **Multiple Work Orders**: Dynamic Leaflet.js map with markers
+- **Geocoding**: Nominatim API with caching and rate limiting
+- **Performance**: Lazy loads map library only when needed
+
+## 🔒 Security
+
+- JWT-based authentication
+- Row Level Security (RLS) in Supabase
+- Input validation with Zod schemas
+- CORS configuration for API endpoints
+- Environment variables for sensitive data
+
+## 🎨 UI Components
+
+The application uses DaisyUI components with Tailwind CSS:
+- Responsive tables for work order listings
+- Modal dialogs for forms
+- Toast notifications for user feedback
+- Loading states and error boundaries
+- Accessible form controls
+
+## 📊 Database Schema
+
+Key tables:
+- `profiles` - User profiles
+- `work_orders` - Main work order records
+- `locations` - Address and geocoding data
+- `assignments` - Work order assignments
+
+## 🚧 Deployment
+
+### Frontend (Vercel/Netlify)
+1. Build the frontend: `task build:frontend`
+2. Deploy the `frontend/build` directory
+
+### Backend (Railway/Fly.io)
+1. Use the provided `Dockerfile` in `backend/`
+2. Set environment variables in hosting platform
+3. Deploy with automatic SSL
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run linting and tests
+5. Submit a pull request
+
+## 📄 License
+
+MIT License
+
+## 🙏 Acknowledgments
+
+- SvelteKit team for the amazing framework
+- Supabase for the backend infrastructure
+- OpenStreetMap contributors for map data

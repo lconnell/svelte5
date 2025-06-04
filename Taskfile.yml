@@ -1,77 +1,113 @@
 version: '3'
 
 tasks:
-  dev:
-    desc: "Starts the development server (vite dev)"
+  # --- Frontend Tasks ---
+  dev:frontend:
+    desc: "Starts the frontend development server"
+    dir: frontend
     cmds:
-      - npm run dev
+      - bun run dev
 
-  build:
-    desc: "Builds the application for production"
+  build:frontend:
+    desc: "Builds the frontend application for production"
+    dir: frontend
     cmds:
-      - npm run build
+      - bun run build
 
-  docker:build:
-    desc: "Builds the Docker image as 'workorder:latest'"
+  preview:frontend:
+    desc: "Previews the frontend production build locally"
+    dir: frontend
     cmds:
-      - docker build -t workorder:latest .
+      - bun run preview
 
-  docker:run:
-    desc: "Runs the Docker container 'workorder:latest' on port 80, named 'workorder' (detached)"
+  prepare:frontend:
+    desc: "Runs svelte-kit sync for the frontend"
+    dir: frontend
     cmds:
-      - docker run -d -p 80:80 --name workorder workorder:latest
+      - bun run prepare
 
-  docker:stop:
-    desc: "Stops and removes the Docker container named 'workorder'"
+  check:frontend:
+    desc: "Runs svelte-kit sync and svelte-check for the frontend"
+    dir: frontend
     cmds:
-      - docker stop workorder
-      - docker rm workorder
-    ignore_error: true # Continue even if container doesn't exist or isn't running
+      - bun run check
 
-  preview:
-    desc: "Previews the production build locally"
+  check:watch:frontend:
+    desc: "Runs svelte-kit sync and svelte-check in watch mode for the frontend"
+    dir: frontend
     cmds:
-      - npm run preview
+      - bun run check:watch
 
-  prepare:
-    desc: "Runs svelte-kit sync (typically for type generation)"
+  postcss:build:frontend:
+    desc: "Builds frontend CSS using PostCSS"
+    dir: frontend
     cmds:
-      - npm run prepare
+      - bun run postcss:build
 
-  check:
-    desc: "Runs svelte-kit sync and svelte-check for type checking"
+  openapi:fetch:frontend:
+    desc: "Fetches the OpenAPI schema for the frontend"
+    dir: frontend
     cmds:
-      - npm run check
+      - bun run openapi:fetch
 
-  check:watch:
-    desc: "Runs svelte-kit sync and svelte-check in watch mode"
+  openapi:generate:frontend:
+    desc: "Generates API client for the frontend"
+    dir: frontend
     cmds:
-      - npm run check:watch
+      - bun run openapi:generate
 
-  pretty:lint:
-    desc: "Lints the codebase using Prettier and ESLint"
+  # --- Backend Tasks ---
+  dev:backend:
+    desc: "Starts the backend development server"
+    dir: backend
     cmds:
-      - npm run pretty:lint
+      - bun run dev # Assumes backend/package.json has a "dev" script
 
-  pretty:fix:
-    desc: "Fixes linting and formatting issues using Prettier and ESLint"
+  # --- Docker Tasks ---
+  docker:build:frontend:
+    desc: "Builds the frontend Docker image as 'workorder-frontend:latest'"
     cmds:
-      - npm run pretty:fix
+      - docker build -t workorder-frontend:latest -f frontend/Dockerfile ./frontend
 
-  postcss:build:
-    desc: "Builds CSS using PostCSS (src/app.css -> tmp/app.css)"
+  docker:run:frontend:
+    desc: "Runs the frontend Docker container 'workorder-frontend:latest' on port 8080"
     cmds:
-      - npm run postcss:build
+      - docker run -d -p 8080:80 --name workorder-frontend workorder-frontend:latest
 
-  openapi:fetch:
-    desc: "Fetches the OpenAPI schema and saves it to src/lib/api/openapi.json"
+  docker:stop:frontend:
+    desc: "Stops and removes the frontend Docker container named 'workorder-frontend'"
     cmds:
-      - npm run openapi:fetch
+      - docker stop workorder-frontend
+      - docker rm workorder-frontend
+    ignore_error: true
 
-  openapi:generate:
-    desc: "Generates API client from the OpenAPI schema using Orval"
+  docker:build:backend:
+    desc: "Builds the backend Docker image as 'workorder-backend:latest'"
     cmds:
-      - npm run openapi:generate
+      - docker build -t workorder-backend:latest -f backend/Dockerfile ./backend
+
+  docker:run:backend:
+    desc: "Runs the backend Docker container 'workorder-backend:latest' on port 3000"
+    cmds:
+      - docker run -d -p 3000:3000 --name workorder-backend workorder-backend:latest
+
+  docker:stop:backend:
+    desc: "Stops and removes the backend Docker container named 'workorder-backend'"
+    cmds:
+      - docker stop workorder-backend
+      - docker rm workorder-backend
+    ignore_error: true
+
+  # --- Root Quality & Utility Tasks ---
+  lint:
+    desc: "Lints the entire codebase using Biome (from project root)"
+    cmds:
+      - bunx biome check . # Uses Biome, respecting root biome.json
+
+  format:
+    desc: "Formats the entire codebase using Biome (from project root)"
+    cmds:
+      - bunx biome check --write --unsafe . # Uses Biome, respecting root biome.json
 
   # Default task: lists all available tasks
   default:
